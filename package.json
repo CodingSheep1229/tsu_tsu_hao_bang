@@ -1,0 +1,28 @@
+{
+  "name": "tsu_tsu_hao_bang",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"nodemon ./backend/server.js\" \"cd client && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodingSheep1229/tsu_tsu_hao_bang.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CodingSheep1229/tsu_tsu_hao_bang/issues"
+  },
+  "homepage": "https://github.com/CodingSheep1229/tsu_tsu_hao_bang#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.0",
+    "morgan": "^1.9.1"
+  }
+}
