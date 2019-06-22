@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route} from "react-router-dom";
 import Home from './home';
-import ToDo from './To-do';
-
+import Schedule from './schedule'
+import ToDo from './todo';
 class Main extends Component {
 
     render() 
@@ -11,7 +11,9 @@ class Main extends Component {
         <div className = "main_section">
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/schedule" component={Schedule} />
             <Route exact path="/todo" component={ToDo} />
+
           </Switch>
         </div>
 
