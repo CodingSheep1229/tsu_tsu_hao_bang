@@ -14,6 +14,8 @@ function Navbar() {
                     <li><NavLink to="/schedule"><a><span>Schedule</span></a></NavLink></li>
                     <li><NavLink to="/todo"><a><span>To Do List</span></a></NavLink></li>
                     <li><NavLink to="/vote"><a><span>vote</span></a></NavLink></li>
+                    <li><NavLink to="/signin"><a><span>Sign In</span></a></NavLink></li>
+
                 </ul>
             </nav>
             <a href="#" className="nav-toggle">Menu<span></span></a>
@@ -21,5 +23,4 @@ function Navbar() {
     </header>
   );
 }
-
 export default Navbar;

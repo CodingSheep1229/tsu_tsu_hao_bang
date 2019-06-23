@@ -4,6 +4,8 @@ import Home from './home';
 import Schedule from './schedule'
 import ToDo from './todo';
 import Vote from './vote';
+import SignUp from './signup';
+import SignIn from './signin';
 class Main extends Component {
 
     render() 
@@ -15,6 +17,8 @@ class Main extends Component {
             <Route exact path="/schedule" component={Schedule} />
             <Route exact path="/todo" component={ToDo} />
             <Route exact path="/vote" component={Vote} />
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/signin" component={SignIn} />
           </Switch>
         </div>
 

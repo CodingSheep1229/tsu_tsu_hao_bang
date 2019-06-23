@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   });
 
 
-class Register extends Component {
+class Schedule extends Component {
 // export default function MaterialTableDemo() {
     constructor(props) {
         super(props);
@@ -53,8 +53,74 @@ class Register extends Component {
         .then(data => data.json())
         .then(data => data.data)
         .then(data => this.setState({ ...this.state, data}));
-        // .then(data => setState(VRFrameData{ ...state, data }));
     };
+    
+    
+    PutDb = async (newData) => {
+        let data = newData;
+        await fetch('http://localhost:5000/api/schedule/addSchedule', {
+            method: 'post',
+            body: JSON.stringify({
+              data
+          }),
+          headers: new Headers({
+              'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+              'Content-Type': 'application/json',
+          })
+        })
+        .then(res => { return res.json() })
+        .then(res => {
+            if(res.success)
+                console.log(res);
+            else
+                alert('Fail.');
+        })
+        .catch((err) => console.error(err));
+      }
+
+      UpdateDb = async (newData) => {
+        let data = newData;
+        await fetch('http://localhost:5000/api/schedule/updateSchedule', {
+            method: 'post',
+            body: JSON.stringify({
+              data
+          }),
+          headers: new Headers({
+              'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+              'Content-Type': 'application/json',
+          })
+        })
+        .then(res => { return res.json() })
+        .then(res => {
+            if(res.success)
+                console.log(res);
+            else
+                alert('Fail.');
+        })
+        .catch((err) => console.error(err));
+      }
+      DeleteDb = async (deleteId) => {
+        let data = {"id":deleteId};
+        await fetch('http://localhost:5000/api/schedule/deleteSchedule', {
+            method: 'post',
+            body: JSON.stringify({
+              data
+          }),
+          headers: new Headers({
+              'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+              'Content-Type': 'application/json',
+          })
+        })
+        .then(res => { return res.json() })
+        .then(res => {
+            if(res.success)
+                console.log(res);
+            else
+                alert('Fail.');
+        })
+        .catch((err) => console.error(err));
+      }
+
     componentDidMount(){
         this.getDb();
     }
@@ -66,13 +132,20 @@ class Register extends Component {
             title="Schedule"
             columns={this.state.columns}
             data={this.state.data}
-            onChange={() => this.getDb()}
             editable={{
                 onRowAdd: newData =>
                 new Promise(resolve => {
                     setTimeout(() => {
                     resolve();
                     const data = [...this.state.data];
+                    newData = {
+                        "_id":String(Date.now()),
+                        "time": newData.time,
+                        "itinerary": newData.itinerary,
+                        "spending": newData.spending,
+                        "remark": newData.remark
+                    };
+                    this.PutDb(newData);
                     data.push(newData);
                     this.setState({ ...this.state, data });
                     }, 10);
@@ -83,6 +156,13 @@ class Register extends Component {
                     resolve();
                     const data = [...this.state.data];
                     data[data.indexOf(oldData)] = newData;
+                    newData = {
+                        "_id":String(Date.now()),
+                        "time": newData.time,
+                        "itinerary": newData.itinerary,
+                        "spending": newData.spending,
+                        "remark": newData.remark
+                    };
                     this.setState({ ...this.state, data });
                     }, 10);
                 }),
@@ -91,6 +171,7 @@ class Register extends Component {
                     setTimeout(() => {
                     resolve();
                     const data = [...this.state.data];
+                    this.DeleteDb(oldData._id)
                     data.splice(data.indexOf(oldData), 1);
                     this.setState({ ...this.state, data });
                     }, 10);
@@ -101,4 +182,4 @@ class Register extends Component {
     );
 }
 };
-export default Register;
+export default Schedule;
