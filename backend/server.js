@@ -32,6 +32,8 @@ mongoose.connect('mongodb+srv://sheep:sheep@web-final-etf7x.mongodb.net/test?ret
 mongoose.set('debug', true);
 
 require('./models/Users');
+require('./models/todo');
+require('./models/schedule');
 require('./config/passport');
 app.use(require('./routes'));
 

@@ -3,46 +3,48 @@ const passport = require('passport');
 const router = require('express').Router();
 const auth = require('../auth');
 const Users = mongoose.model('Users');
-const Schedule = mongoose.model('Schedule');
+const Todo = mongoose.model('Todo');
+const { Schema } = mongoose;
 
 //GET current route (required, only authenticated users have access)
-router.get('/getSchedule', auth.required, (req, res, next) => {
-  const { payload: { id } } = req;
-
+router.get('/getTodo', auth.required, (req, res, next) => {
+    const { payload: { id } } = req;
   return Users.findById(id)
     .then((user) => {
       if(!user) {
         return res.sendStatus(400);
       }
-      Schedule.find((err, data) => {
+      Todo.find((err, data) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true, data: data });
       });
     });
 });
 
-router.post('/addSchedule', auth.required, (req, res, next) => {
-    console.log(req.body);
+router.post('/addTodo', auth.required, (req, res, next) => {
+    // console.log(req.body);
     const { body: { data } } = req;
     
-    const finalSchedule = new Schedule(data);
+    const finalTodo = new Todo(data);
   
-    return finalSchedule.save()
+    return finalTodo.save()
       .then(() => res.json({ success: true }));
 });
 
-router.post('/updateSchedule', auth.required, (req, res, next) => {
+router.post('/updateTodo', auth.required, (req, res, next) => {
     console.log(req.body);
     const { body: { data } } = req;
     let id = data._id;
 
-    Schedule.findOneAndUpdate({ _id: id },{$set: data},{returnNewDocument : true}).then(()=>res.json({success:true}));
+    Todo.findOneAndUpdate({ _id: id },{$set: data},{returnNewDocument : true}).then(()=>res.json({success:true}));
 });
 
-router.post('/deleteSchedule', auth.required, (req, res, next) => {
+router.post('/deleteTodo', auth.required, (req, res, next) => {
     const { body: { data:{id} } } = req;
 
-    return Schedule.findOneAndRemove({ _id: id },useFindAndModify=false).then(()=>res.json({success:true}));
+    return Todo.findOneAndRemove({ _id: id },useFindAndModify=false).then(()=>res.json({success:true}));
 });
+
+
 
 module.exports = router;
