@@ -19,9 +19,37 @@ class TodoTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
+          data:[
+            {
+              _id:'a',
+              ischeck: true,
+              work: 'sleep',
+              principle: 'meme',
+              deadtime: '10:00'
+            },
+            {
+              _id:'b',
+              ischeck: true,
+              work: 'pleep',
+              principle: 'peme',
+              deadtime: '10:00'
+            },
+          ],
           columns: [
             { title: '', field: 'ischeck',type: 'boolean',
-              render: rowData => <Checkbox checked={rowData.ischeck} onClick={e => this.checked(e,rowData)}/>
+              render: rowData => <Checkbox checked={rowData.ischeck} onClick = {() => {
+                this.getDb()
+                
+                for(var i=0;i<Number(this.state.data.length);i++){
+                  if(rowData._id == this.state.data[i]._id){
+                    let temp = this.state.data
+                    temp[i].ischeck = !rowData.ischeck
+                    this.setState({data: temp});
+                    this.UpdateDb(temp[i])
+                  }
+                }
+                
+              }} />
             },
             { title: 'Work', field: 'work' },
             { title: 'Principal', field: 'principle'},
@@ -29,15 +57,8 @@ class TodoTable extends Component {
           ],
           data:[],
           newData:[],
-          check:[] 
         }  
     }
-    checked = (e,rowData) => {
-        rowData.ischeck = e.target.checked;
-        console.log("hi")
-        console.log(rowData);
-        this.UpdateDb(rowData);
-    };
     getDb = async () => {
         await fetch('http://localhost:5000/api/todo/getTodo', { 
             method: 'get', 

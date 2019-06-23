@@ -12,7 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+import { NavLink, Switch, Route, Redirect, browserHistory } from "react-router-dom";
 
 
 function MadeWithLove() {
@@ -58,12 +58,12 @@ const useStyles = makeStyles(theme => ({
 
 const PutDb = async (newData) => {
   // console.log(newData);
-  let data = {"user": newData};
-  console.log(data);
+  let user = newData;
+  console.log(user);
   await fetch('http://localhost:5000/api/users/signin', {
       method: 'post',
       body: JSON.stringify({
-        data
+        user
     }),
     headers: new Headers({
         'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
@@ -74,17 +74,18 @@ const PutDb = async (newData) => {
   .then(res => {
       if(res.success)
           console.log(res);
+      else if(res.msg)
+          alert(res.msg);
       else
           alert('Fail.');
   })
   .catch((err) => console.error(err));
+
 }
 
 export default function SignInSide() {
   const classes = useStyles();
-  const handleSubmit = data => {
-    console.log(data)
-} 
+
   const [form, setForm] = 
   React.useState();
   const changeForm = e => setForm({ 
@@ -104,7 +105,7 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} Validate>
             <TextField
               variant="outlined"
               margin="normal"
@@ -133,24 +134,29 @@ export default function SignInSide() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
-            <Button
-              // type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={e => PutDb(form)}
-            >
+            {/* <NavLink to='/' className = 'NavLink'> */}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={e => {
+                  PutDb(form);
+                  }              
+                }
+              >
               Sign In
-            </Button>
+              </Button>
+            {/* </NavLink> */}
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
-                <NavLink to="/signup" variant="body2">
+                <NavLink to="/signup" className = 'NavLink'>
                   {"Don't have an account? Sign Up"}
                 </NavLink>
               </Grid>

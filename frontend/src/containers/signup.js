@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+import { browserHistory } from 'react-router'
 
 function MadeWithLove() {
   return (
@@ -49,6 +50,7 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+
 }));
 
 
@@ -77,11 +79,12 @@ export default function SignUp() {
     .then(res => { return res.json() })
     .then(res => {
         if(res.success)
-            console.log(res);
+            console.log(res.success);
         else
-            alert('Fail.');
+            alert(res.msg);
     })
     .catch((err) => console.error(err));
+    
   }
 
 
@@ -153,18 +156,25 @@ export default function SignUp() {
               />
             </Grid> */}
           </Grid>
-          <Button
-            // type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={e => PutDb(form)}
-          >
-            Sign Up
-          </Button>
+          <NavLink to='/signin' className = 'NavLink'>
+            <Button
+              // type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={e => {
+                  PutDb(form);
+                  // console.log(React.history);
+                  // browserHistory.push('/')
+                }
+              }
+            >
+              Sign Up
+            </Button>
+          </NavLink>
           <Grid container justify="flex-end">
-            <NavLink to = '/signin'>
+            <NavLink to = '/signin'  className = 'NavLink'>
               <Grid item>
                   Already have an account? Sign in
               </Grid>
