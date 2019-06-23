@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { NavLink, Switch, Route, Redirect, browserHistory } from "react-router-dom";
-
+import { withRouter } from 'react-router-dom';
 
 function MadeWithLove() {
   return (
@@ -56,34 +56,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PutDb = async (newData) => {
-  // console.log(newData);
-  let user = newData;
-  console.log(user);
-  await fetch('http://localhost:5000/api/users/signin', {
-      method: 'post',
-      body: JSON.stringify({
-        user
-    }),
-    headers: new Headers({
-        'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
-        'Content-Type': 'application/json',
-    })
-  })
-  .then(res => { return res.json() })
-  .then(res => {
-      if(res.success)
-          console.log(res);
-      else if(res.msg)
-          alert(res.msg);
-      else
-          alert('Fail.');
-  })
-  .catch((err) => console.error(err));
 
-}
-
-export default function SignInSide() {
+function SignIn(props) {
   const classes = useStyles();
 
   const [form, setForm] = 
@@ -92,7 +66,62 @@ export default function SignInSide() {
     ...form, 
     [e.target.name]: e.target.value
   })
-
+  // const PutDb = async (newData) => {
+  //   console.log(newData);
+  //   let user = newData;
+  //   console.log(user);
+  //   await fetch('http://172.20.10.5:5000/api/users/signin', {
+  //       method: 'post',
+  //       body: JSON.stringify({
+  //         user
+  //     }),
+  //     headers: new Headers({
+  //         'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+  //         'Content-Type': 'application/json',
+  //     })
+  //   })
+  //   .then(res => { return res.json() })
+  //   .then(res => {
+  //       if(res.success){
+  //         let destUrl = `/`;
+  //         // props.history.replace('');
+  //         // props.history.push(destUrl);
+  //         console.log(res);
+  //         alert('111')
+  //       }
+  //       else
+  //           alert(res.msg || 'Fail.');
+  //   })
+  //   .catch((err) => console.error(err));
+  
+  // }
+  const PutDb = async (newData) => {
+    const data = {"user": newData};
+    console.log(data);
+    await fetch('http://172.20.10.5:5000/api/users/signin', {
+        method: 'post',
+        body: JSON.stringify({
+          data
+      }),
+      headers: new Headers({
+          'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+          'Content-Type': 'application/json',
+      })
+    })
+    .then(res => { return res.json() })
+    .then(res => {
+        if(res.success){
+          // let destUrl = `/signin`;
+          // props.history.push(destUrl);
+          console.log(res.success);
+        }
+        else
+          alert(res.msg);
+    })
+    .catch((err) => console.error(err));
+    console.log("finish");
+    
+  }
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -128,7 +157,11 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={e => changeForm(e)}
+              onChange={e =>{
+                changeForm(e);
+                console.log(form);
+                }  
+              } 
             />
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -170,3 +203,4 @@ export default function SignInSide() {
     </Grid>
   );
 }
+export default withRouter(SignIn);

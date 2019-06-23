@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { NavLink, Switch, Route, Redirect } from "react-router-dom";
 import { browserHistory } from 'react-router'
+import { withRouter } from 'react-router-dom';
 
 function MadeWithLove() {
   return (
@@ -54,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function SignUp() {
+function SignUp(props) {
   const classes = useStyles();
   const [form, setForm] = 
   React.useState();
@@ -66,7 +67,7 @@ export default function SignUp() {
   const PutDb = async (newData) => {
     let data = {"user": newData};
     console.log(data);
-    await fetch('http://localhost:5000/api/users/signup', {
+    await fetch('http://172.20.10.5:5000/api/users/signup', {
         method: 'post',
         body: JSON.stringify({
           data
@@ -78,10 +79,13 @@ export default function SignUp() {
     })
     .then(res => { return res.json() })
     .then(res => {
-        if(res.success)
-            console.log(res.success);
+        if(res.success){
+          let destUrl = `/signin`;
+          props.history.push(destUrl);
+          console.log(res.success);
+        }
         else
-            alert(res.msg);
+          alert(res.msg);
     })
     .catch((err) => console.error(err));
     
@@ -145,7 +149,10 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={e => changeForm(e)}                
+                onChange={e =>{
+                  changeForm(e);
+                  }  
+                }                
                 // onClick={e => console.log(form)}
               />
             </Grid>
@@ -156,7 +163,7 @@ export default function SignUp() {
               />
             </Grid> */}
           </Grid>
-          <NavLink to='/signin' className = 'NavLink'>
+          {/* <NavLink to='/signin' className = 'NavLink'> */}
             <Button
               // type="submit"
               fullWidth
@@ -169,10 +176,10 @@ export default function SignUp() {
                   // browserHistory.push('/')
                 }
               }
-            >
+            > 
               Sign Up
             </Button>
-          </NavLink>
+          {/* </NavLink> */}
           <Grid container justify="flex-end">
             <NavLink to = '/signin'  className = 'NavLink'>
               <Grid item>
@@ -188,3 +195,4 @@ export default function SignUp() {
     </Container>
   );
 }
+export default withRouter(SignUp);

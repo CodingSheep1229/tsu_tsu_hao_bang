@@ -10,10 +10,10 @@ import './css/animate.min.css';
 import Navbar from './containers/navbar';
 import Main from './containers/main';
 
-import { HashRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
     <div className="App">
       <section className="tophead" role="tophead"> 
         <Navbar/>
@@ -22,7 +22,7 @@ function App() {
         <Main/>
       </section>
     </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
