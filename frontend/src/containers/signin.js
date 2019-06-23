@@ -96,12 +96,12 @@ function SignIn(props) {
   
   // }
   const PutDb = async (newData) => {
-    const data = {"user": newData};
-    console.log(data);
-    await fetch('http://172.20.10.5:5000/api/users/signin', {
+    const user = newData;
+    console.log(user);
+    await fetch('http://localhost:5000/api/users/signin', {
         method: 'post',
         body: JSON.stringify({
-          data
+          user
       }),
       headers: new Headers({
           'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
@@ -113,7 +113,7 @@ function SignIn(props) {
         if(res.success){
           // let destUrl = `/signin`;
           // props.history.push(destUrl);
-          console.log(res.success);
+          console.log(res);
         }
         else
           alert(res.msg);
@@ -175,6 +175,7 @@ function SignIn(props) {
                 color="primary"
                 className={classes.submit}
                 onClick={e => {
+                    e.preventDefault();
                   PutDb(form);
                   }              
                 }

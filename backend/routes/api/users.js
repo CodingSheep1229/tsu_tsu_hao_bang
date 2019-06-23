@@ -4,16 +4,6 @@ const router = require('express').Router();
 const auth = require('../auth');
 const Users = mongoose.model('Users');
 
-function isUser(email) {
-    Users.find({'email':email}).then((user)=> {
-        // console.log(user);
-        if (user){
-            return true;
-        }
-        return false;
-    });
-}
-
 //POST new user route (optional, everyone has access)
 router.post('/signup', auth.optional, (req, res, next) => {
     console.log(req.body)
@@ -53,7 +43,7 @@ router.post('/signup', auth.optional, (req, res, next) => {
 router.post('/signin', auth.optional, (req, res, next) => {
     const { body: { user } } = req;
     // console.log(user);
-    
+    // console.log(req.body)
     if(!user.email) {
       return res.status(422).json({
         errors: {
@@ -84,7 +74,7 @@ router.post('/signin', auth.optional, (req, res, next) => {
       if(passportUser) {
         const user = passportUser;
         user.token = passportUser.generateJWT();
-  
+        console.log('hi');
         return res.json({ user: user.toAuthJSON(),success:true });
       }
   
