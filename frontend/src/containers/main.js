@@ -3,6 +3,7 @@ import { Switch, Route} from "react-router-dom";
 import Home from './home';
 import Schedule from './schedule'
 import ToDo from './todo';
+import Vote from './vote';
 class Main extends Component {
 
     render() 
@@ -13,7 +14,7 @@ class Main extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/schedule" component={Schedule} />
             <Route exact path="/todo" component={ToDo} />
-
+            <Route exact path="/vote" component={Vote} />
           </Switch>
         </div>
 

@@ -14,52 +14,31 @@ const useStyles = makeStyles({
       padding: '0 30px',
     },
   });
-class TodoTable extends Component {
+class VoteTable extends Component {
 // export default function MaterialTableDemo() {
     constructor(props) {
         super(props);
         this.state = {
-          data:[
-            {
-              _id:'a',
-              ischeck: true,
-              work: 'sleep',
-              principle: 'meme',
-              deadtime: '10:00'
-            },
-            {
-              _id:'b',
-              ischeck: true,
-              work: 'pleep',
-              principle: 'peme',
-              deadtime: '10:00'
-            },
-          ],
           columns: [
-            { title: '', field: 'ischeck',type: 'boolean',
-              render: rowData => <Checkbox checked={rowData.ischeck} onClick = {() => {
-                this.getDb()
-                
-                for(var i=0;i<Number(this.state.data.length);i++){
-                  if(rowData._id == this.state.data[i]._id){
-                    let temp = this.state.data
-                    temp[i].ischeck = !rowData.ischeck
-                    this.setState({data: temp});
-                    this.UpdateDb(temp[i])
-                  }
-                }
-                
-              }} />
+            { title: 'Subject', field: 'subject' },
+            { title: 'Link', field: 'link' },
+            { title: 'Member', field: 'member', type:'list',
+              render: rowData =>  rowData.member.map((imag) => <img src={imag} style={{width: 50, height:50, borderRadius: '50%'}}/>) 
             },
-            { title: 'Work', field: 'work' },
-            { title: 'Principal', field: 'principle'},
-            { title: 'DeadLine', field: 'deadtime', type: 'time'},
+            { title: 'Vote', field: 'ischeck',type: 'boolean',
+              render: rowData => <Checkbox checked={rowData.ischeck} />
+            },
           ],
-          newData:[],
+          data: [
+            { 
+              subject: 'A hotel',
+              link: 'https://material-ui.com/components/drawers/',
+              member: [require('../images/portfolio/work-1.jpg'),require('../images/portfolio/work-2.jpg')],
+              Vote: true
+            },
+          ],     
         }  
     }
-    checked = (rowData) => {
-    };
 
     getDb = async () => {
         await fetch('http://localhost:5000/api/schedule/getToDo', { 
@@ -72,25 +51,8 @@ class TodoTable extends Component {
         .then(data => data.json())
         .then(data => data.data)
         .then(data => this.setState({ ...this.state, data}));
+        // .then(data => setState(VRFrameData{ ...state, data }));
     };
-    PutDb = async () => {
-      let data = this.state.newData;
-      await fetch('http://localhost:3001/api/addTodo', {
-          method: 'POST',
-          body: {"todo": data},
-          headers: {
-              'Content-Type': 'application/json'
-          }
-      })
-      .then(res => { return res.json() })
-      .then(res => {
-          if(res.success)
-              console.log(res);
-          else
-              alert('Fail.');
-      })
-      .catch((err) => console.error(err));
-    }
     componentDidMount(){
         this.getDb();
     }
@@ -99,7 +61,7 @@ class TodoTable extends Component {
     return (
         <div>
             <MaterialTable
-            title="To Do List"
+            title="Vote"
             columns={this.state.columns}
             data={this.state.data}
             onChange={() => this.getDb()}
@@ -111,16 +73,8 @@ class TodoTable extends Component {
                 new Promise(resolve => {
                     setTimeout(() => {
                     resolve();
-                    const data = [...this.state.data]
-                    newData = {
-                      id:Date.now(),
-                      ischeck: newData.ischeck,
-                      work: newData.work,
-                      principle: newData.work,
-                      deadtime: newData.deadtime
-                    };
+                    const data = [...this.state.data];
                     data.push(newData);
-                    this.setState(() => ({newData: newData }));
                     this.setState({ ...this.state, data });
                     }, 10);
                 }),
@@ -148,4 +102,4 @@ class TodoTable extends Component {
     );
 }
 };
-export default TodoTable;
+export default VoteTable;
