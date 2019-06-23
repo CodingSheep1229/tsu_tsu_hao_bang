@@ -106,13 +106,14 @@ ul li {
 }
 #header .header-content {
 	margin: 0 auto;
-	padding: 40px 0;
+	padding: 40px 0px;
+	/* padding-left:20px; */
 	width: 100%;
 	-moz-transition: padding 0.3s;
 	-o-transition: padding 0.3s;
 	-webkit-transition: padding 0.3s;
 	transition: padding 0.3s;
-	background-color: white;
+	background-color: grey;
 }
 #header .logo {
 	font-size: 21px;
@@ -128,8 +129,7 @@ ul li {
 #header.fixed .header-content {
 	border-bottom: 0;
 	padding: 25px 0;
-	background-color: white;
-	background-color: white;
+	/* background-color: grey; */
 }
 #header.fixed .nav-toggle {
 	top: 18px;
