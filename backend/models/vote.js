@@ -6,9 +6,14 @@ const VoteSchema = new Schema(
         _id: String,
         title: String,
         data: [
-            
+            {
+                _id: String,
+                subject: String,
+                description: String,
+                member: [String],
+            }
         ]
     }
 );
 
-mongoose.model("Todo", TodoSchema);
+mongoose.model("Vote", VoteSchema);

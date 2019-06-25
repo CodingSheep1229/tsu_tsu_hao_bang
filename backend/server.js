@@ -34,6 +34,7 @@ mongoose.set('debug', true);
 require('./models/Users');
 require('./models/todo');
 require('./models/schedule');
+require('./models/vote');
 require('./config/passport');
 app.use(require('./routes'));
 
