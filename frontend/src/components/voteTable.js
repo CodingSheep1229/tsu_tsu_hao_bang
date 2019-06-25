@@ -2,7 +2,29 @@ import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { makeStyles } from '@material-ui/styles';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import TextField from '@material-ui/core/TextField';
+import { withStyles} from '@material-ui/core/styles';
+const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: 'green',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'green',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'red',
+      },
+      '&:hover fieldset': {
+        borderColor: 'yellow',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'green',
+      },
+    },
+  },
+})(TextField);
 const useStyles = makeStyles({
     root: {
       background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -21,80 +43,120 @@ class VoteTable extends Component {
         this.state = {
           columns: [
             { title: 'Subject', field: 'subject' },
-            { title: 'Link', field: 'link' },
+            { title: 'Description', field: 'description'},
             { title: 'Member', field: 'member', type:'list',
-              render: rowData =>  rowData.member.map((imag) => <img src={imag} style={{width: 50, height:50, borderRadius: '50%'}}/>) 
+              // render: rowData =>  rowData.member.map((imag) => <img src={imag} style={{width: 50, height:50, borderRadius: '50%'}}/>) 
             },
             { title: 'Vote', field: 'ischeck',type: 'boolean',
               render: rowData => <Checkbox checked={rowData.ischeck} />
             },
           ],
-          data: [
-            { 
-              subject: 'A hotel',
-              link: 'https://material-ui.com/components/drawers/',
-              member: [require('../images/portfolio/work-1.jpg'),require('../images/portfolio/work-2.jpg')],
-              Vote: true
-            },
-          ],     
+          data:{
+
+          }    
         }  
     }
-
-    getDb = async () => {
-        await fetch('http://localhost:5000/api/schedule/getToDo', { 
-            method: 'get', 
-            headers: new Headers({
-                'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
-            })
-            
+    getData = () => {
+      this.setState({data:this.props.table});
+    }
+    UpdateVote = async (newData) => {
+      let data = newData;
+      await fetch('http://192.168.43.245:5000/api/vote/updateVote', {
+          method: 'post',
+          body: JSON.stringify({
+            data
+        }),
+        headers: new Headers({
+            'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+            'Content-Type': 'application/json',
         })
-        .then(data => data.json())
-        .then(data => data.data)
-        .then(data => this.setState({ ...this.state, data}));
-        // .then(data => setState(VRFrameData{ ...state, data }));
-    };
+      })
+      .then(res => { return res.json() })
+      .then(res => {
+          if(res.success)
+              console.log(res);
+          else
+              alert('Fail.');
+      })
+      .catch((err) => console.error(err));
+    }
     componentDidMount(){
-        this.getDb();
+        this.getData();
     }
     // const classes = useStyles();
     render(){    
     return (
         <div>
             <MaterialTable
-            title="Vote"
+            title={<CssTextField
+              variant="outlined"
+              id="custom-css-outlined-input"
+              value = {this.state.data.title}
+              style={margin:"5px";}
+            />}
             columns={this.state.columns}
-            data={this.state.data}
-            onChange={() => this.getDb()}
+            data={this.state.data.data}
             options={{
               actionsColumnIndex: -1
             }}
+            actions={[
+              {
+                icon: 'delete',
+                tooltip: 'delte table',
+                isFreeAction: true,
+                onClick: () => {
+                  this.props.deleteTable(this.state.data._id)
+                  this.props.getTable()
+                },
+              }
+            ]}
             editable={{
                 onRowAdd: newData =>
                 new Promise(resolve => {
                     setTimeout(() => {
                     resolve();
-                    const data = [...this.state.data];
+                    const data = [...this.state.data.data];
                     data.push(newData);
-                    this.setState({ ...this.state, data });
+                    const allData = {
+                      "_id":this.state.data._id,
+                      "data":data,
+                      "title":this.state.data.title
+                    }
+                    this.UpdateVote(allData)
+                    this.setState({data:allData});
                     }, 10);
                 }),
                 onRowUpdate: (newData, oldData) =>
                 new Promise(resolve => {
                     setTimeout(() => {
                     resolve();
-                    const data = [...this.state.data];
+                    const data = [...this.state.data.data];
                     data[data.indexOf(oldData)] = newData;
-                    this.setState({ ...this.state, data });
+                    const allData = {
+                      "_id":this.state.data._id,
+                      "data":data,
+                      "title":this.state.data.title
+                    }
+                    this.UpdateVote(allData)
+                    this.setState({data:allData});
                     }, 10);
                 }),
                 onRowDelete: oldData =>
                 new Promise(resolve => {
                     setTimeout(() => {
                     resolve();
-                    const data = [...this.state.data];
+                    const data = [...this.state.data.data];
                     data.splice(data.indexOf(oldData), 1);
-                    this.setState({ ...this.state, data });
+                    const allData = {
+                      "_id":this.state.data._id,
+                      "data":data,
+                      "title":this.state.data.title
+                    }
+                    this.UpdateVote(allData)
+                    console.log(allData)
+                    this.setState({data:allData});
                     }, 10);
+                    
                 }),
             }}
             />

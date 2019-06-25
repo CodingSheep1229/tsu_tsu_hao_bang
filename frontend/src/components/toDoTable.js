@@ -55,12 +55,10 @@ class TodoTable extends Component {
             { title: 'Principal', field: 'principle'},
             { title: 'DeadLine', field: 'deadtime', type: 'time'},
           ],
-          data:[],
-          newData:[],
         }  
     }
     getDb = async () => {
-        await fetch('http://localhost:5000/api/todo/getTodo', { 
+        await fetch('http://192.168.43.245:5000/api/todo/getTodo', { 
             method: 'get', 
             headers: new Headers({
                 'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
@@ -73,7 +71,7 @@ class TodoTable extends Component {
     };
     PutDb = async (newData) => {
       let data = newData;
-      await fetch('http://localhost:5000/api/todo/addTodo', {
+      await fetch('http://192.168.43.245:5000/api/todo/addTodo', {
           method: 'post',
           body: JSON.stringify({
             data
@@ -94,7 +92,7 @@ class TodoTable extends Component {
     }
     UpdateDb = async (newData) => {
       let data = newData;
-      await fetch('http://localhost:5000/api/todo/updateTodo', {
+      await fetch('http://192.168.43.245:5000/api/todo/updateTodo', {
           method: 'post',
           body: JSON.stringify({
             data
@@ -115,7 +113,7 @@ class TodoTable extends Component {
     }
     DeleteDb = async (deleteId) => {
       let data = {"id":deleteId};
-      await fetch('http://localhost:5000/api/todo/deleteTodo', {
+      await fetch('http://192.168.43.245:5000/api/todo/deleteTodo', {
           method: 'post',
           body: JSON.stringify({
             data
@@ -142,7 +140,6 @@ class TodoTable extends Component {
     return (
         <div>
             <MaterialTable
-            title="To Do List"
             columns={this.state.columns}
             data={this.state.data}
             options={{
