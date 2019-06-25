@@ -14,7 +14,7 @@ router.get('/getSchedule', auth.required, (req, res, next) => {
       if(!user) {
         return res.sendStatus(400);
       }
-      Schedule.find((err, data) => {
+      Schedule.find({_pid : req.headers._pid},(err, data) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true, data: data });
       });

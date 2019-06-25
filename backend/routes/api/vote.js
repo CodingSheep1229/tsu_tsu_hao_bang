@@ -14,7 +14,7 @@ router.get('/getVotes', auth.required, (req, res, next) => {
       if(!user) {
         return res.sendStatus(400);
       }
-      Vote.find((err, data) => {
+      Vote.find({_pid : req.headers._pid},(err, data) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true, data: data });
       });

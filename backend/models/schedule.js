@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const ScheduleSchema = new Schema(
     {
         _id: String,
+        _pid: String,
         time: String,
         itinerary: String,
         spending: Number,

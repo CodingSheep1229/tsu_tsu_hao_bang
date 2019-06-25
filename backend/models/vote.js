@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const VoteSchema = new Schema(
     {
         _id: String,
+        _pid: String,
         title: String,
         data: [
             {
