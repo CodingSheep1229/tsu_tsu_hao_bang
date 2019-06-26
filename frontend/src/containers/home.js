@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Switch, Route} from "react-router-dom";
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import CardGrid from '../components/cardGrid'
+import {url} from '../url';
 import { NavLink} from "react-router-dom";
 // import Project from './project';
 const token = localStorage.getItem('token')
+console.log(localStorage.getItem('token'))
 class Home extends Component {
     constructor(props) {
       super(props);
@@ -13,7 +15,7 @@ class Home extends Component {
       }
     }
     getProjects = async () => {
-      await fetch('http://192.168.43.245:5000/api/project/getProject', { 
+      await fetch(url + ':5000/api/project/getProject', { 
           method: 'get', 
           headers: new Headers({
               'Authorization': 'Token ' + token, 
@@ -22,46 +24,35 @@ class Home extends Component {
       })
       .then(data => data.json())
       .then(data => data.data)
-      .then(data => this.setState({ data: data}))
+      .then(data => {
+        this.setState({ data: data});        
+    })
     };
-    getProject = async (p_id) => {
-      localStorage.setItem('project_id',p_id)
-      this.props.history.push('/project');
+    getProject = (_pid) => {
+      console.log(_pid)
+      localStorage.setItem('_pid',_pid)
+      console.log(localStorage.getItem('_pid'))
+      this.props.history.push('/schedule');
     };
     componentDidMount(){
       this.getProjects()
     }
+    
     render() 
     {
+      const cards = this.state.data.map((card) => <CardGrid name={card.name} _id={card._id} getpro={this.getProject}  />)
       return (
         <div className = "main_section">
           <section id="portfolio" className="section portfolio">
             <div className="container-fluid">
-            <div className="item"> 
-            {/* <img src={require('./images/slider/slid2.jpg')} alt="Chania"></img> */}
-              <div className="carousel-caption">
-                <h3>Minimal Agency Template</h3>
-                <p>We're Australia based branding & design agency</p>
-              </div>
+            <div className="item">
             </div>
-            <Grid container spacing={2}> 
-              <Grid item xs={12}>
-                <Grid container justify="center" spacing={10} >
-                  {this.state.data.map(value => (
-                    <Grid key={value._id} style={{background:"black",}} item>
-                      <button onClick={(value) => {
-                        localStorage.setItem('_pid',value._id);
-                        console.log("hhh")
-                        console.log(value._id)
-                      }
-                        } ><NavLink to="/project">{value.name}</NavLink></button>
-                      <Paper/>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-            </Grid>
-            </div>  
+              {cards}
+            </div> 
+            <br /><br /><br />
+            <Fab color="primary" aria-label="Add">
+                <AddIcon />
+            </Fab> 
           </section>
         </div>
         

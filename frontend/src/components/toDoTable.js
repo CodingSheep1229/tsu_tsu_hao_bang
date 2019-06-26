@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { makeStyles } from '@material-ui/styles';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import { slide as Menu } from 'react-burger-menu'
+import { url,styles } from '../url'
+import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+const token = localStorage.getItem('token')
+var _pid = localStorage.getItem('_pid')
 const useStyles = makeStyles({
     root: {
       background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -58,11 +62,13 @@ class TodoTable extends Component {
         }  
     }
     getDb = async () => {
-        await fetch('http://192.168.43.245:5000/api/todo/getTodo', { 
+        _pid = localStorage.getItem('_pid')
+        await fetch(url + ':5000/api/todo/getTodo', { 
             method: 'get', 
             headers: new Headers({
-                'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
-            })
+                'Authorization': 'Token ' + token,
+                '_pid':_pid
+              })
             
         })
         .then(data => data.json())
@@ -71,13 +77,13 @@ class TodoTable extends Component {
     };
     PutDb = async (newData) => {
       let data = newData;
-      await fetch('http://192.168.43.245:5000/api/todo/addTodo', {
+      await fetch(url + ':5000/api/todo/addTodo', {
           method: 'post',
           body: JSON.stringify({
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+            'Authorization': 'Token ' + token, 
             'Content-Type': 'application/json',
         })
       })
@@ -92,13 +98,13 @@ class TodoTable extends Component {
     }
     UpdateDb = async (newData) => {
       let data = newData;
-      await fetch('http://192.168.43.245:5000/api/todo/updateTodo', {
+      await fetch(url + ':5000/api/todo/updateTodo', {
           method: 'post',
           body: JSON.stringify({
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+            'Authorization': 'Token ' + token, 
             'Content-Type': 'application/json',
         })
       })
@@ -119,7 +125,7 @@ class TodoTable extends Component {
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+            'Authorization': 'Token ' + token, 
             'Content-Type': 'application/json',
         })
       })
@@ -139,6 +145,11 @@ class TodoTable extends Component {
     render(){    
     return (
         <div>
+            <Menu styles={ styles } > 
+                <a className="menu-item"><NavLink to="/schedule">Schedule</NavLink></a><br />
+                <a className="menu-item"><NavLink to="/todo">To Do List</NavLink></a><br />
+                <a className="menu-item"><NavLink to="/vote">vote</NavLink></a>
+            </ Menu>
             <MaterialTable
             columns={this.state.columns}
             data={this.state.data}
@@ -155,7 +166,8 @@ class TodoTable extends Component {
                       "ischeck": newData.ischeck,
                       "work": newData.work,
                       "principle": newData.principle,
-                      "deadtime": newData.deadtime
+                      "deadtime": newData.deadtime,
+                      '_pid':_pid
                     };
                     this.PutDb(newData);
                     resolve();
@@ -174,7 +186,8 @@ class TodoTable extends Component {
                       "ischeck": newData.ischeck,
                       "work": newData.work,
                       "principle": newData.principle,
-                      "deadtime": newData.deadtime
+                      "deadtime": newData.deadtime,
+                      '_pid':_pid
                     }
                     this.UpdateDb(newData)
                     data[data.indexOf(oldData)] = newData;

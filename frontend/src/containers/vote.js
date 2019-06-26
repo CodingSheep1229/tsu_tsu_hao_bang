@@ -3,8 +3,12 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import VoteTable from '../components/voteTable.js';
 import store from "../redux-js/store/index";
-let token = localStorage.getItem("token")
-let p_id = localStorage.getItem("p_id")
+import { slide as Menu } from 'react-burger-menu'
+import { withStyles} from '@material-ui/core/styles';
+import { url,styles } from '../url'
+import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+const token = localStorage.getItem("token")
+var _pid = localStorage.getItem("_pid")
 class Vote extends Component {
   constructor(props) {
     super(props);
@@ -13,29 +17,30 @@ class Vote extends Component {
     }
   }
   getVotes = async () => {
-    await fetch('http://192.168.43.245:5000/api/vote/getVotes', { 
+    _pid = localStorage.getItem('_pid')
+    await fetch(url + ':5000/api/vote/getVotes', { 
         method: 'get', 
         headers: new Headers({
             'Authorization': 'Token ' + token, 
-            '_pid':p_id
+            '_pid':_pid
         })
         
     })
     .then(data => data.json())
     .then(data => data.data)
     .then(data => this.setState({ data: data}))
+    console.log("in")
   };
   deleteVote = async (deleteId) => {
     let data = {"id":deleteId}
-    await fetch('http://192.168.43.245:5000/api/vote/deleteVote', {
+    await fetch(url + ':5000/api/vote/deleteVote', {
         method: 'post',
         body: JSON.stringify({
           data
       }),
       headers: new Headers({
-          'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+          'Authorization': 'Token ' + token, 
           'Content-Type': 'application/json',
-          '_pid':p_id
       })
     })
     .then(res => { return res.json() })
@@ -49,15 +54,14 @@ class Vote extends Component {
   }
   addVote = async (newData) => {
     let data = newData;
-    await fetch('http://192.168.43.245:5000/api/vote/addVote', {
+    await fetch(url + ':5000/api/vote/addVote', {
         method: 'post',
         body: JSON.stringify({
           data
       }),
       headers: new Headers({
-          'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QuY29tIiwiaWQiOiI1ZDBmNTFiYjc3YmZkZjFjMjliMzdiMDMiLCJleHAiOjE1NjY2NDA0MDAsImlhdCI6MTU2MTQ1NjQwMH0.cpk_f1MYsnh7A_fVvbR4divaORaxlPs3PKBRcN-hpw8', 
+          'Authorization': 'Token ' + token, 
           'Content-Type': 'application/json',
-          '_pid':p_id
       })
     })
     .then(res => { return res.json() })
@@ -82,6 +86,11 @@ class Vote extends Component {
       )
        return (
         <div className = "main_section">
+          <Menu styles={ styles } > 
+                <a className="menu-item"><NavLink to="/schedule">Schedule</NavLink></a><br />
+                <a className="menu-item"><NavLink to="/todo">To Do List</NavLink></a><br />
+                <a className="menu-item"><NavLink to="/vote">vote</NavLink></a>
+          </ Menu>
           {tables}
           <Fab color="primary" aria-label="Add">
             <AddIcon onClick={async () => {
@@ -89,6 +98,7 @@ class Vote extends Component {
                 _id:String(Date.now()), 
                 title: "New Adds",
                 data: [],
+                _pid:_pid
               }
               this.addVote(newData)
               await this.getVotes()

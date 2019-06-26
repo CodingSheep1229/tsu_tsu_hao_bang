@@ -3,7 +3,11 @@ import MaterialTable from 'material-table';
 import { makeStyles } from '@material-ui/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
+import { slide as Menu } from 'react-burger-menu'
 import { withStyles} from '@material-ui/core/styles';
+import { url,styles } from '../url'
+import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+const token = localStorage.getItem('token')
 const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
@@ -64,13 +68,13 @@ class VoteTable extends Component {
     }
     UpdateVote = async (newData) => {
       let data = newData;
-      await fetch('http://192.168.43.245:5000/api/vote/updateVote', {
+      await fetch(url + ':5000/api/vote/updateVote', {
           method: 'post',
           body: JSON.stringify({
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QuY29tIiwiaWQiOiI1ZDBmNTFiYjc3YmZkZjFjMjliMzdiMDMiLCJleHAiOjE1NjY2NDA0MDAsImlhdCI6MTU2MTQ1NjQwMH0.cpk_f1MYsnh7A_fVvbR4divaORaxlPs3PKBRcN-hpw8', 
+            'Authorization': 'Token ' + token, 
             'Content-Type': 'application/json',
         })
       })

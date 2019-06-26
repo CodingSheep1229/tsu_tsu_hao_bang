@@ -3,8 +3,10 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import VoteTable from '../components/voteTable.js';
 import store from "../redux-js/store/index";
+import { slide as Menu } from 'react-burger-menu'
+
 let token = localStorage.getItem("token")
-const p_id = localStorage.getItem("_pid")
+const _pid = localStorage.getItem("_pid")
 class Project extends Component {
   constructor(props) {
     super(props);
@@ -66,8 +68,12 @@ class Project extends Component {
 //     })
 //     .catch((err) => console.error(err));
 //     }
+    showSettings (event) {
+      event.preventDefault();
+    }
+
     componentDidMount(){
-      console.log(p_id)
+      console.log(_pid)
     }
     render() 
     {

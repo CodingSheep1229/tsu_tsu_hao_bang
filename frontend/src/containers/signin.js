@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { NavLink, Switch, Route, Redirect, browserHistory } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
-
+import {url} from '../url';
 import { connect } from "react-redux";
 import store from "../redux-js/store/index";
 import { loginUser } from "../redux-js/actions/index";
@@ -80,13 +80,12 @@ function SignIn(props) {
   })
   const PutDb = async (newData) => {
     const user = newData;
-    await fetch('http://192.168.43.245:5000/api/users/signin', {
+    await fetch(url+':5000/api/users/signin', {
         method: 'post',
         body: JSON.stringify({
           user
       }),
       headers: new Headers({
-          'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QuY29tIiwiaWQiOiI1ZDBmNTFiYjc3YmZkZjFjMjliMzdiMDMiLCJleHAiOjE1NjY2NDA0MDAsImlhdCI6MTU2MTQ1NjQwMH0.cpk_f1MYsnh7A_fVvbR4divaORaxlPs3PKBRcN-hpw8', 
           'Content-Type': 'application/json',
       })
     })
@@ -96,6 +95,7 @@ function SignIn(props) {
         console.log(res.user)
         localStorage.setItem('token', res.user.token)
         localStorage.setItem('user', res.user.user)
+        console.log(localStorage.getItem('token'))
         console.log(store.getState())
         if(res.success){
           // let destUrl = `/signin`;
@@ -105,8 +105,9 @@ function SignIn(props) {
         else
           alert(res.msg);
     })
+    .then(res => {props.history.push('/home')})
     .catch((err) => console.error(err));
-    console.log("finish");
+    
     
   }
   return (

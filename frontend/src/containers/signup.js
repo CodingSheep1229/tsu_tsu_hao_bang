@@ -15,7 +15,7 @@ import Container from '@material-ui/core/Container';
 import { NavLink, Switch, Route, Redirect } from "react-router-dom";
 import { browserHistory } from 'react-router'
 import { withRouter } from 'react-router-dom';
-
+import {url} from '../url'
 function MadeWithLove() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -67,13 +67,12 @@ function SignUp(props) {
   const PutDb = async (newData) => {
     let data = {"user": newData};
     console.log(data);
-    await fetch('http://172.20.10.5:5000/api/users/signup', {
+    await fetch(url + ':5000/api/users/signup', {
         method: 'post',
         body: JSON.stringify({
           data
       }),
       headers: new Headers({
-          'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
           'Content-Type': 'application/json',
       })
     })

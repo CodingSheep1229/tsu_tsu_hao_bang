@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { makeStyles } from '@material-ui/styles';
-
+import { slide as Menu } from 'react-burger-menu'
+import { url,styles } from '../url'
+import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+var _pid = localStorage.getItem('_pid')
+var token = localStorage.getItem('token')
 const useStyles = makeStyles({
     root: {
       background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -13,8 +17,6 @@ const useStyles = makeStyles({
       padding: '0 30px',
     },
   });
-
-
 class Schedule extends Component {
 // export default function MaterialTableDemo() {
     constructor(props) {
@@ -27,26 +29,29 @@ class Schedule extends Component {
                 {
                     title: 'Remark',
                     field: 'remark',
-                    // lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
                 },
             ],
+            data:[]
             // data: [
             //     { time: '10:00-11:00', itinerary: '起床', spending: 0, remark: '嘿嘿' },
             //     {
-            //         time: '11:00-12:00',
-            //         itinerary: '搭車',
-            //         spending: 20,
-            //         remark: '不能遲到喔',
+                    // time: '11:00-12:00',
+                    // itinerary: '搭車',
+                    // spending: 20,
+                    // remark: '不能遲到喔',
             //     },
             // ],              
         }  
     }
 
     getDb = async () => {
-        await fetch('http://localhost:5000/api/schedule/getSchedule', { 
+        _pid = localStorage.getItem('_pid');
+        token = localStorage.getItem('token');
+        await fetch(url + ':5000/api/schedule/getSchedule', { 
             method: 'get', 
             headers: new Headers({
-                'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QuY29tIiwiaWQiOiI1ZDBmNTFiYjc3YmZkZjFjMjliMzdiMDMiLCJleHAiOjE1NjY2NDA0MDAsImlhdCI6MTU2MTQ1NjQwMH0.cpk_f1MYsnh7A_fVvbR4divaORaxlPs3PKBRcN-hpw8', 
+                'Authorization': 'Token ' + token, 
+                '_pid': _pid
             })
             
         })
@@ -57,14 +62,15 @@ class Schedule extends Component {
     
     
     PutDb = async (newData) => {
+        _pid = localStorage.getItem('_pid')
         let data = newData;
-        await fetch('http://localhost:5000/api/schedule/addSchedule', {
+        await fetch(url + ':5000/api/schedule/addSchedule', {
             method: 'post',
             body: JSON.stringify({
               data
           }),
           headers: new Headers({
-              'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+              'Authorization': 'Token ' + token, 
               'Content-Type': 'application/json',
           })
         })
@@ -80,14 +86,15 @@ class Schedule extends Component {
 
       UpdateDb = async (newData) => {
         let data = newData;
-        await fetch('http://localhost:5000/api/schedule/updateSchedule', {
+        await fetch(url + ':5000/api/schedule/updateSchedule', {
             method: 'post',
             body: JSON.stringify({
               data
           }),
           headers: new Headers({
-              'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+              'Authorization': 'Token ' + token, 
               'Content-Type': 'application/json',
+              '_pid': _pid
           })
         })
         .then(res => { return res.json() })
@@ -101,13 +108,13 @@ class Schedule extends Component {
       }
       DeleteDb = async (deleteId) => {
         let data = {"id":deleteId};
-        await fetch('http://localhost:5000/api/schedule/deleteSchedule', {
+        await fetch(url + ':5000/api/schedule/deleteSchedule', {
             method: 'post',
             body: JSON.stringify({
               data
           }),
           headers: new Headers({
-              'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+              'Authorization': 'Token ' + token, 
               'Content-Type': 'application/json',
           })
         })
@@ -128,6 +135,11 @@ class Schedule extends Component {
     render(){    
     return (
         <div>
+            <Menu styles={ styles } > 
+                <a className="menu-item"><NavLink to="/schedule">Schedule</NavLink></a><br />
+                <a className="menu-item"><NavLink to="/todo">To Do List</NavLink></a><br />
+                <a className="menu-item"><NavLink to="/vote">vote</NavLink></a>
+            </ Menu>
             <MaterialTable
             title="Schedule"
             columns={this.state.columns}
@@ -143,7 +155,8 @@ class Schedule extends Component {
                         "time": newData.time,
                         "itinerary": newData.itinerary,
                         "spending": newData.spending,
-                        "remark": newData.remark
+                        "remark": newData.remark,
+                        "_pid": _pid
                     };
                     this.PutDb(newData);
                     data.push(newData);
@@ -157,13 +170,16 @@ class Schedule extends Component {
                     const data = [...this.state.data];
                     data[data.indexOf(oldData)] = newData;
                     newData = {
-                        "_id":String(Date.now()),
+                        "_id": oldData._id,
                         "time": newData.time,
                         "itinerary": newData.itinerary,
                         "spending": newData.spending,
-                        "remark": newData.remark
+                        "remark": newData.remark,
+                        "_pid": _pid
                     };
                     this.setState({ ...this.state, data });
+                    this.UpdateDb(newData)
+                    this.getDb();
                     }, 10);
                 }),
                 onRowDelete: oldData =>

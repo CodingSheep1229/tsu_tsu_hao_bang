@@ -11,9 +11,6 @@ function Navbar() {
             <nav className="navigation" role="navigation">
                 <ul className="primary-nav">
                     <li><NavLink to="/"><span>Home</span></NavLink></li>
-                    <li><NavLink to="/schedule"><span>Schedule</span></NavLink></li>
-                    <li><NavLink to="/todo"><span>To Do List</span></NavLink></li>
-                    <li><NavLink to="/vote"><span>vote</span></NavLink></li>
                     <li><NavLink to="/signin"><span>Sign In</span></NavLink></li>
 
                 </ul>
