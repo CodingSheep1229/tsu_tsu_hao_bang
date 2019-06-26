@@ -9,6 +9,7 @@ const { Schema } = mongoose;
 //GET current route (required, only authenticated users have access)
 router.get('/getVotes', auth.required, (req, res, next) => {
     const { payload: { id } } = req;
+    // console.log(req.headers._pid);
   return Users.findById(id)
     .then((user) => {
       if(!user) {

@@ -30,10 +30,11 @@ router.post('/signup', auth.optional, (req, res, next) => {
         return res.status(400).json({ success:false, msg:'Email Already Exists'})
     }
 });
+    user.projects = [];
+    const finalUser = new Users(user);
 
-  const finalUser = new Users(user);
-
-  finalUser.setPassword(user.password);
+    finalUser.setPassword(user.password);
+  
 
   return finalUser.save()
     .then(() => res.json({ success:true }));

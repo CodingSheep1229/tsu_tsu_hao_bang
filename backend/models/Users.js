@@ -9,6 +9,7 @@ const UsersSchema = new Schema({
     email: String,
     hash: String,
     salt: String,
+    projects: [String],
 });
 
 UsersSchema.methods.setPassword = function(password) {
@@ -39,6 +40,7 @@ UsersSchema.methods.toAuthJSON = function() {
     _id: this._id,
     name: this.name,
     email: this.email,
+    projects: this.projects,
     token: this.generateJWT(),
   };
 };
