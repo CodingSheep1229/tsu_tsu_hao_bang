@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import VoteTable from '../components/voteTable.js';
-
+import store from "../redux-js/store/index";
+let token = localStorage.getItem("token")
+let p_id = localStorage.getItem("p_id")
 class Vote extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +16,8 @@ class Vote extends Component {
     await fetch('http://192.168.43.245:5000/api/vote/getVotes', { 
         method: 'get', 
         headers: new Headers({
-            'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+            'Authorization': 'Token ' + token, 
+            '_pid':p_id
         })
         
     })
@@ -32,6 +35,7 @@ class Vote extends Component {
       headers: new Headers({
           'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
           'Content-Type': 'application/json',
+          '_pid':p_id
       })
     })
     .then(res => { return res.json() })
@@ -51,8 +55,9 @@ class Vote extends Component {
           data
       }),
       headers: new Headers({
-          'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+          'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QuY29tIiwiaWQiOiI1ZDBmNTFiYjc3YmZkZjFjMjliMzdiMDMiLCJleHAiOjE1NjY2NDA0MDAsImlhdCI6MTU2MTQ1NjQwMH0.cpk_f1MYsnh7A_fVvbR4divaORaxlPs3PKBRcN-hpw8', 
           'Content-Type': 'application/json',
+          '_pid':p_id
       })
     })
     .then(res => { return res.json() })
@@ -65,6 +70,7 @@ class Vote extends Component {
     .catch((err) => console.error(err));
     }
     componentDidMount(){
+      store.getState()
       this.getVotes();
     }
     render() 

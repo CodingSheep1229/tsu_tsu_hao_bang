@@ -1,8 +1,36 @@
 import React, { Component } from 'react';
 import { Switch, Route} from "react-router-dom";
-
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { NavLink} from "react-router-dom";
+// import Project from './project';
+const token = localStorage.getItem('token')
 class Home extends Component {
-
+    constructor(props) {
+      super(props);
+      this.state = {
+        data:[]
+      }
+    }
+    getProjects = async () => {
+      await fetch('http://192.168.43.245:5000/api/project/getProject', { 
+          method: 'get', 
+          headers: new Headers({
+              'Authorization': 'Token ' + token, 
+          })
+          
+      })
+      .then(data => data.json())
+      .then(data => data.data)
+      .then(data => this.setState({ data: data}))
+    };
+    getProject = async (p_id) => {
+      localStorage.setItem('project_id',p_id)
+      this.props.history.push('/project');
+    };
+    componentDidMount(){
+      this.getProjects()
+    }
     render() 
     {
       return (
@@ -16,16 +44,23 @@ class Home extends Component {
                 <p>We're Australia based branding & design agency</p>
               </div>
             </div>
-            <div className="row">
-                <div className="col-sm-6 portfolio-item"> <a href="work-details.html" className="portfolio-link"></a> </div>
-                <div className="caption">
-                    <div className="caption-content">
-                    <h3>The Shape of Design</h3>
-                    <h4>Branding/Graphic</h4>
-                    </div>
-                </div>
-                <img src={require('../images/portfolio/work-1.jpg')} className="img-responsive" alt=""></img>
-            </div>
+            <Grid container spacing={2}> 
+              <Grid item xs={12}>
+                <Grid container justify="center" spacing={10} >
+                  {this.state.data.map(value => (
+                    <Grid key={value._id} style={{background:"black",}} item>
+                      <button onClick={(value) => {
+                        localStorage.setItem('_pid',value._id);
+                        console.log("hhh")
+                        console.log(value._id)
+                      }
+                        } ><NavLink to="/project">{value.name}</NavLink></button>
+                      <Paper/>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
+            </Grid>
             </div>  
           </section>
         </div>

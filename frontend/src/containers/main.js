@@ -6,6 +6,8 @@ import ToDo from './todo';
 import Vote from './vote';
 import SignUp from './signup';
 import SignIn from './signin';
+// import Test from './test';
+import Project from './project'
 class Main extends Component {
 
     render() 
@@ -19,6 +21,7 @@ class Main extends Component {
             <Route exact path="/vote" component={Vote} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/project" component={Project} />
           </Switch>
         </div>
 

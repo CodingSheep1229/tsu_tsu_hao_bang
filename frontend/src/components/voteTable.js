@@ -7,24 +7,27 @@ import { withStyles} from '@material-ui/core/styles';
 const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
-      color: 'green',
+      color: 'blue',
     },
     '& .MuiInput-underline:after': {
       borderBottomColor: 'green',
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: 'red',
+        borderColor: 'white',
       },
       '&:hover fieldset': {
-        borderColor: 'yellow',
+        borderColor: 'blue',
       },
       '&.Mui-focused fieldset': {
-        borderColor: 'green',
+        borderColor: 'light blue',
       },
     },
   },
 })(TextField);
+const style = {
+  margin: '5px',
+};
 const useStyles = makeStyles({
     root: {
       background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -67,7 +70,7 @@ class VoteTable extends Component {
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGYiLCJpZCI6IjVkMGRmMDM0OGQzN2FmZDUwM2UzZjJjMSIsImV4cCI6MTU2NjM3ODU0OCwiaWF0IjoxNTYxMTk0NTQ4fQ.Swtdn68VaV9qlAkCm2EGCrX5LGtJ68ZPil2d5XlTZQ8', 
+            'Authorization': 'Token' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QuY29tIiwiaWQiOiI1ZDBmNTFiYjc3YmZkZjFjMjliMzdiMDMiLCJleHAiOjE1NjY2NDA0MDAsImlhdCI6MTU2MTQ1NjQwMH0.cpk_f1MYsnh7A_fVvbR4divaORaxlPs3PKBRcN-hpw8', 
             'Content-Type': 'application/json',
         })
       })
@@ -90,10 +93,13 @@ class VoteTable extends Component {
             <MaterialTable
             title={<CssTextField
               variant="outlined"
-              id="custom-css-outlined-input"
               value = {this.state.data.title}
-              style={margin:"5px";}
-            />}
+              style={this.margin}
+              onChange = {async e => {
+              await this.setState({ data:{...this.state.data, title: e.target.value}});
+              this.UpdateVote(this.state.data)
+             }
+            }/>}
             columns={this.state.columns}
             data={this.state.data.data}
             options={{
