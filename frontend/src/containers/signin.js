@@ -80,7 +80,7 @@ function SignIn(props) {
   })
   const PutDb = async (newData) => {
     const user = newData;
-    await fetch(url+':5000/api/users/signin', {
+    await fetch(url+'/api/users/signin', {
         method: 'post',
         body: JSON.stringify({
           user
@@ -91,15 +91,13 @@ function SignIn(props) {
     })
     .then(res => { return res.json() })
     .then(res => {
-        store.dispatch(loginUser(res.user));
-        console.log(res.user)
-        localStorage.setItem('token', res.user.token)
-        localStorage.setItem('user', res.user.user)
-        console.log(localStorage.getItem('token'))
-        console.log(store.getState())
+        
         if(res.success){
           // let destUrl = `/signin`;
           // props.history.push(destUrl);
+          store.dispatch(loginUser(res.user));
+          localStorage.setItem('token', res.user.token)
+          localStorage.setItem('user', res.user.user)
           console.log(res);
         }
         else
@@ -184,7 +182,7 @@ function SignIn(props) {
               </Grid>
             </Grid>
             <Box mt={5}>
-              <MadeWithLove />
+              {/* <MadeWithLove /> */}
             </Box>
           </form>
         </div>

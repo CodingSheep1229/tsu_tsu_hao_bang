@@ -18,7 +18,7 @@ class Vote extends Component {
   }
   getVotes = async () => {
     _pid = localStorage.getItem('_pid')
-    await fetch(url + ':5000/api/vote/getVotes', { 
+    await fetch(url + '/api/vote/getVotes', { 
         method: 'get', 
         headers: new Headers({
             'Authorization': 'Token ' + token, 
@@ -33,7 +33,7 @@ class Vote extends Component {
   };
   deleteVote = async (deleteId) => {
     let data = {"id":deleteId}
-    await fetch(url + ':5000/api/vote/deleteVote', {
+    await fetch(url + '/api/vote/deleteVote', {
         method: 'post',
         body: JSON.stringify({
           data
@@ -54,7 +54,7 @@ class Vote extends Component {
   }
   addVote = async (newData) => {
     let data = newData;
-    await fetch(url + ':5000/api/vote/addVote', {
+    await fetch(url + '/api/vote/addVote', {
         method: 'post',
         body: JSON.stringify({
           data

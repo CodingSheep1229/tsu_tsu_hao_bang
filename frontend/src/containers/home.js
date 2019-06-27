@@ -15,7 +15,7 @@ class Home extends Component {
       }
     }
     getProjects = async () => {
-      await fetch(url + ':5000/api/project/getProject', { 
+      await fetch(url + '/api/project/getProject', { 
           method: 'get', 
           headers: new Headers({
               'Authorization': 'Token ' + token, 

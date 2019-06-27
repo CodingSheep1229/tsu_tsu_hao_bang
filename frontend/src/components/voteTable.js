@@ -5,7 +5,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import { slide as Menu } from 'react-burger-menu'
 import { withStyles} from '@material-ui/core/styles';
-import { url,styles } from '../url'
+import { url, styles } from '../url'
 import { NavLink, Switch, Route, Redirect } from "react-router-dom";
 const token = localStorage.getItem('token')
 const CssTextField = withStyles({
@@ -68,7 +68,7 @@ class VoteTable extends Component {
     }
     UpdateVote = async (newData) => {
       let data = newData;
-      await fetch(url + ':5000/api/vote/updateVote', {
+      await fetch(url + '/api/vote/updateVote', {
           method: 'post',
           body: JSON.stringify({
             data

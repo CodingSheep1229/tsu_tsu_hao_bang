@@ -28,7 +28,7 @@ if(!isProduction) {
 }
 
 //Configure Mongoose
-mongoose.connect('mongodb+srv://sheep:sheep@web-final-etf7x.mongodb.net/test?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://sheep:sheep@web-final-etf7x.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true });
 mongoose.set('debug', true);
 
 require('./models/Users');
@@ -55,6 +55,7 @@ if(!isProduction) {
 
 app.use((err, req, res) => {
   res.status(err.status || 500);
+  
 
   res.json({
     errors: {

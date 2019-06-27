@@ -1,4 +1,4 @@
-export const url = 'http://192.168.43.245';
+export const url = 'http://localhost:50227';
 export const styles = {
     bmBurgerButton: {
       position: 'fixed',

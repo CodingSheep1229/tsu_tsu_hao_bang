@@ -47,7 +47,7 @@ class Schedule extends Component {
     getDb = async () => {
         _pid = localStorage.getItem('_pid');
         token = localStorage.getItem('token');
-        await fetch(url + ':5000/api/schedule/getSchedule', { 
+        await fetch(url + '/api/schedule/getSchedule', { 
             method: 'get', 
             headers: new Headers({
                 'Authorization': 'Token ' + token, 
@@ -64,7 +64,7 @@ class Schedule extends Component {
     PutDb = async (newData) => {
         _pid = localStorage.getItem('_pid')
         let data = newData;
-        await fetch(url + ':5000/api/schedule/addSchedule', {
+        await fetch(url + '/api/schedule/addSchedule', {
             method: 'post',
             body: JSON.stringify({
               data
@@ -86,7 +86,7 @@ class Schedule extends Component {
 
       UpdateDb = async (newData) => {
         let data = newData;
-        await fetch(url + ':5000/api/schedule/updateSchedule', {
+        await fetch(url + '/api/schedule/updateSchedule', {
             method: 'post',
             body: JSON.stringify({
               data
@@ -108,7 +108,7 @@ class Schedule extends Component {
       }
       DeleteDb = async (deleteId) => {
         let data = {"id":deleteId};
-        await fetch(url + ':5000/api/schedule/deleteSchedule', {
+        await fetch(url + '/api/schedule/deleteSchedule', {
             method: 'post',
             body: JSON.stringify({
               data

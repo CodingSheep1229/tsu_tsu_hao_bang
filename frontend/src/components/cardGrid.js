@@ -13,7 +13,7 @@ var _pid = localStorage.getItem('_pid')
 class CardGrid extends Component {
   addUserToProject = async (username) => {
     let data = {username:username, _pid:localStorage.getItem('_pid')};
-    await fetch(url + ':5000/api/users/addUserToProject', {
+    await fetch(url + '/api/users/addUserToProject', {
         method: 'post',
         body: JSON.stringify({
           data

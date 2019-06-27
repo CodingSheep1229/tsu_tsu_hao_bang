@@ -13,7 +13,8 @@ router.get('/getProject', auth.required, (req, res, next) => {
       if(!user) {
         return res.sendStatus(400);
       }
-      Project.find({'_pid':{ $in: user.projects }},(err, data) => {
+      Project.find({'_id':{ $in: user.projects }},(err, data) => {
+        //   console.log(data);
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true, data: data });
       });

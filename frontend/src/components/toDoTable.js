@@ -63,7 +63,7 @@ class TodoTable extends Component {
     }
     getDb = async () => {
         _pid = localStorage.getItem('_pid')
-        await fetch(url + ':5000/api/todo/getTodo', { 
+        await fetch(url + '/api/todo/getTodo', { 
             method: 'get', 
             headers: new Headers({
                 'Authorization': 'Token ' + token,
@@ -77,7 +77,7 @@ class TodoTable extends Component {
     };
     PutDb = async (newData) => {
       let data = newData;
-      await fetch(url + ':5000/api/todo/addTodo', {
+      await fetch(url + '/api/todo/addTodo', {
           method: 'post',
           body: JSON.stringify({
             data
@@ -98,7 +98,7 @@ class TodoTable extends Component {
     }
     UpdateDb = async (newData) => {
       let data = newData;
-      await fetch(url + ':5000/api/todo/updateTodo', {
+      await fetch(url + '/api/todo/updateTodo', {
           method: 'post',
           body: JSON.stringify({
             data
@@ -119,7 +119,7 @@ class TodoTable extends Component {
     }
     DeleteDb = async (deleteId) => {
       let data = {"id":deleteId};
-      await fetch('http://192.168.43.245:5000/api/todo/deleteTodo', {
+      await fetch(url + '/api/todo/deleteTodo', {
           method: 'post',
           body: JSON.stringify({
             data

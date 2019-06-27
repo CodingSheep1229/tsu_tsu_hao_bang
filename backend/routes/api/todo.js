@@ -6,7 +6,6 @@ const Users = mongoose.model('Users');
 const Todo = mongoose.model('Todo');
 const { Schema } = mongoose;
 
-//GET current route (required, only authenticated users have access)
 router.get('/getTodo', auth.required, (req, res, next) => {
     const { payload: { id } } = req;
   return Users.findById(id)

@@ -67,7 +67,7 @@ function SignUp(props) {
   const PutDb = async (newData) => {
     let data = {"user": newData};
     console.log(data);
-    await fetch(url + ':5000/api/users/signup', {
+    await fetch(url + '/api/users/signup', {
         method: 'post',
         body: JSON.stringify({
           data

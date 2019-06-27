@@ -9,7 +9,7 @@ class Schedule extends Component {
       return (
         
         <div className = "main_section">
-          <Parent></Parent>
+          <Parent/>
           <ScheduleTable/>
         </div>
 
