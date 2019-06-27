@@ -14,12 +14,13 @@ import { BrowserRouter } from 'react-router-dom'
 function App() {
   return (
     <BrowserRouter>
-    <div className="App">
-      <section className="tophead" role="tophead"> 
-        <Navbar/>
+    <div className="App" style={{position:"relative"}}>
+      <section> 
+          <Navbar style={{position:"absolute"}}/>
       </section>
-      <section id="services" className="section services">
-        <Main/>
+      <br /><br /><br /><br /><br />
+      <section>
+        <Main style={{position:"absolute"}} />
       </section>
     </div>
     </BrowserRouter>

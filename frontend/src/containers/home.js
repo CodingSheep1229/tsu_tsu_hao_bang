@@ -42,7 +42,6 @@ class Home extends Component {
     {
       const cards = this.state.data.map((card) => <CardGrid name={card.name} _id={card._id} getpro={this.getProject}  />)
       return (
-        <div className = "main_section">
           <section id="portfolio" className="section portfolio">
             <div className="container-fluid">
             <div className="item">
@@ -54,7 +53,6 @@ class Home extends Component {
                 <AddIcon />
             </Fab> 
           </section>
-        </div>
         
 
       )
