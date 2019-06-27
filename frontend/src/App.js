@@ -16,7 +16,7 @@ function App() {
     <BrowserRouter>
     <div className="App" style={{position:"relative"}}>
       <section> 
-          <Navbar style={{position:"absolute"}}/>
+        <Navbar style={{position:"absolute"}}/>
       </section>
       <br /><br /><br /><br /><br />
       <section>
