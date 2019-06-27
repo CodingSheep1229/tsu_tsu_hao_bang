@@ -17,7 +17,7 @@ const useStyles = makeStyles({
       padding: '0 30px',
     },
   });
-class Schedule extends Component {
+class ScheduleTable extends Component {
 // export default function MaterialTableDemo() {
     constructor(props) {
         super(props);
@@ -198,4 +198,4 @@ class Schedule extends Component {
     );
 }
 };
-export default Schedule;
+export default ScheduleTable;

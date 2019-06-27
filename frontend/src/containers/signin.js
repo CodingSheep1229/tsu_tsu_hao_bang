@@ -27,24 +27,13 @@ const saveState = (state) => {
     // Ignore write errors;
   }
 };
-function MadeWithLove() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Built with love by the '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Material-UI
-      </Link>
-      {' team.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: 'url("https://i.imgur.com/gKATvvM.jpg")',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -182,7 +171,6 @@ function SignIn(props) {
               </Grid>
             </Grid>
             <Box mt={5}>
-              {/* <MadeWithLove /> */}
             </Box>
           </form>
         </div>
