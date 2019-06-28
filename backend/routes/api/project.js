@@ -35,6 +35,13 @@ router.post('/addProject', auth.required, (req, res, next) => {
     });
 });
 
+router.post('/updateProject', auth.required, (req, res, next) => {
+    const { body: { data } } = req;
+    let id = data._id;
+
+    Project.findOneAndUpdate({ _id: id },{$set: data},{returnNewDocument : true}).then(()=>res.json({success:true}));
+});
+
 router.post('/deleteProject', auth.required, (req, res, next) => {
     const { body: { data:{id} } } = req;
 
