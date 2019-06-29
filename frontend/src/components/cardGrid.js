@@ -8,12 +8,45 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import{url} from '../url'
+import { withStyles} from '@material-ui/core/styles';
+import DeleteIcon from '@material-ui/icons/Delete';
 const token = localStorage.getItem('token')
 var _pid = localStorage.getItem('_pid')
+const CssTextField = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: 'blue',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'green',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+      },
+      '&:hover fieldset': {
+        borderColor: 'blue',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'light blue',
+      },
+    },
+  },
+})(TextField);
+const style = {
+  margin: '5px',
+};
 class CardGrid extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      _id:this.props._id,
+      name:this.props.name
+    }
+  }
   addUserToProject = async (username) => {
     let data = {username:username, _pid:localStorage.getItem('_pid')};
-    await fetch(url + '/api/users/addUserToProject', {
+    await fetch(url + '/project/inviteUser', {
         method: 'post',
         body: JSON.stringify({
           data
@@ -32,6 +65,29 @@ class CardGrid extends Component {
     })
     .catch((err) => console.error(err));
     }
+    updateProject = async () => {
+      let data = this.state
+      console.log(data)
+      await fetch(url + '/api/project/updateProject', {
+          method: 'post',
+          body: JSON.stringify({
+            data
+        }),
+        headers: new Headers({
+            'Authorization': 'Token ' + token, 
+            'Content-Type': 'application/json',
+        })
+      })
+      .then(res => { return res.json() })
+      .then(res => {
+          if(res.success)
+              console.log(res);
+          else
+              alert('Fail.');
+      })
+      .catch((err) => console.error(err));
+    }
+    
   render() {
     return (
       <div>
@@ -42,19 +98,31 @@ class CardGrid extends Component {
         fullWidth
         margin="normal"
         variant="outlined"
-        onChange = {() => this.addUserToProject()}
+        onKeyPress = {
+          e => {
+            if(e.key == 'Enter'){
+              this.addUserToProject(e.target.value)
+            }
+          }
+        }
         InputLabelProps={{
           shrink: true,
         }}
       />
-        <Card style={{maxWidth: "345"}} onClick={() => {
-          this.props.getpro(this.props._id);
-          console.log(localStorage.getItem('_pid'))
-        }}>
+        <Card style={{maxWidth: "345"}}>
             <CardActionArea>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                {this.props.name}
+                    <CssTextField
+                    variant="outlined"
+                    value = {this.state.name}
+                    style={this.margin}
+                    onChange = {
+                    async e => {
+                    await this.setState({name: e.target.value});
+                    await this.updateProject()
+                  }
+                  }/>
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                   whahahahahahaha
@@ -62,9 +130,15 @@ class CardGrid extends Component {
             </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button size="small" color="primary" >
+                <Button size="small" color="primary" onClick={() => {
+                    this.props.getpro(this.props._id);
+                    console.log(localStorage.getItem('_pid'))
+                  }}>
                   Learn More
                 </Button>
+                <Button><DeleteIcon  onClick={() => {
+                  this.props.deletePro(this.state._id);
+                  this.props.getpros()}}/></Button>
             </CardActions>
  
         </Card>

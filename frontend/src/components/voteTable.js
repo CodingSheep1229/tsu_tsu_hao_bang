@@ -6,7 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import { slide as Menu } from 'react-burger-menu'
 import { withStyles} from '@material-ui/core/styles';
 import { url, styles } from '../url'
-import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+import './table.css';
+// const random_img = [require('../images/portfolio/work-1.jpg'),require('../images/portfolio/work-2.jpg')]
 const token = localStorage.getItem('token')
 const CssTextField = withStyles({
   root: {
@@ -48,23 +49,62 @@ class VoteTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
           columns: [
             { title: 'Subject', field: 'subject' },
             { title: 'Description', field: 'description'},
-            { title: 'Member', field: 'member', type:'list',
-              // render: rowData =>  rowData.member.map((imag) => <img src={imag} style={{width: 50, height:50, borderRadius: '50%'}}/>) 
+            { title: 'Member', field: 'member', type:'list' 
+              // render: rowData => 
             },
             { title: 'Vote', field: 'ischeck',type: 'boolean',
-              render: rowData => <Checkbox checked={rowData.ischeck} />
+              render: rowData => <Checkbox checked={rowData.ischeck}/>
             },
           ],
           data:{
-
+            // p_id:'jjj',
+            // title:'nnnnn',
+            // data : {
+            //   "_id":this.state.data.data._id,
+            //   "subject":this.state.data.data.subject,
+            //   "description":this.state.data.data.description,
+            //   "member":this.state.data.data.memeber,
+            //   "ischeck":false
+            // },
           }    
         }  
     }
-    getData = () => {
-      this.setState({data:this.props.table});
+    checked = (member) => {
+      var data = []
+      console.log(this.state.data.data)
+      const num = this.state.data.data.length
+      console.log(num)
+      for(var i=0; i < num;i++){
+        const user = localStorage.getItem('user')
+        var ischeck = true
+        // console.log(member)
+        const mem_num = this.state.data.data[i].member.length
+        console.log(mem_num)
+        for (var m = 0; m < mem_num; m++){
+          if (user === this.state.data.data[i].member[m]){
+            ischeck = true
+          } 
+        }
+        var temp = {
+          "_id":this.state.data.data[i]._id,
+          "subject":this.state.data.data[i].subject,
+          "description":this.state.data.data[i].description,
+          "member":this.state.data.data[i].member,
+          "ischeck":ischeck
+        }
+        data.push(temp)
+        // console.log("hhh")
+        // console.log(data)
+      }
+      return data
+    }
+    checking = (rowId) => {
+      
+
     }
     UpdateVote = async (newData) => {
       let data = newData;
@@ -87,14 +127,22 @@ class VoteTable extends Component {
       })
       .catch((err) => console.error(err));
     }
-    componentDidMount(){
-        this.getData();
+    async componentDidMount(){
+        var data = this.props.table
+        await this.setState({data:data})
+        console.log(this.state.data)
+        const newData = await this.checked()
+        console.log(newData)
+        await this.setState({ data:{...this.state.data, data: newData}});
+        console.log(this.state.data)
+        // await this.setState({data:data})
+        // console.log(this.state.data)
     }
-    // const classes = useStyles();
-    render(){    
+    
+    render(){
     return (
         <div>
-            <MaterialTable
+            <MaterialTable className = "table"
             title={<CssTextField
               variant="outlined"
               value = {this.state.data.title}
@@ -107,7 +155,11 @@ class VoteTable extends Component {
             columns={this.state.columns}
             data={this.state.data.data}
             options={{
-              actionsColumnIndex: -1
+              actionsColumnIndex: -1,
+              headerStyle: {
+                backgroundColor: '#6abe83',
+                color: 'rgba(53,75,94)'
+              }
             }}
             actions={[
               {
@@ -115,7 +167,7 @@ class VoteTable extends Component {
                 tooltip: 'delte table',
                 isFreeAction: true,
                 onClick: () => {
-                  this.props.deleteTable(this.state.data._id)
+                  this.props.deleteTable(this.state.data)
                   this.props.getTable()
                 },
               }
@@ -126,6 +178,12 @@ class VoteTable extends Component {
                     setTimeout(() => {
                     resolve();
                     const data = [...this.state.data.data];
+                    newData = {
+                      "_id":String(Date.now()),
+                      "description":newData.description,
+                      "member":newData.member,
+                      "subject":newData.subject,
+                    }
                     data.push(newData);
                     const allData = {
                       "_id":this.state.data._id,
@@ -142,11 +200,14 @@ class VoteTable extends Component {
                     resolve();
                     const data = [...this.state.data.data];
                     data[data.indexOf(oldData)] = newData;
+                    console.log("here")
+                    console.log(newData)
                     const allData = {
                       "_id":this.state.data._id,
                       "data":data,
                       "title":this.state.data.title
                     }
+                    console.log(data)
                     this.UpdateVote(allData)
                     this.setState({data:allData});
                     }, 10);
@@ -157,6 +218,7 @@ class VoteTable extends Component {
                     resolve();
                     const data = [...this.state.data.data];
                     data.splice(data.indexOf(oldData), 1);
+
                     const allData = {
                       "_id":this.state.data._id,
                       "data":data,

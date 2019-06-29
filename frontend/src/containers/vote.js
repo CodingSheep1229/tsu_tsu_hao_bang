@@ -30,6 +30,7 @@ class Vote extends Component {
     .then(data => data.data)
     .then(data => this.setState({ data: data}))
     console.log("in")
+    console.log(this.state.data) 
   };
   deleteVote = async (deleteId) => {
     let data = {"id":deleteId}
@@ -79,7 +80,7 @@ class Vote extends Component {
     }
     render() 
     {
-      const tables = this.state.data.map((table) => 
+      const tables = this.state.data.map((table) =>  
         <div><VoteTable table={table} deleteTable={this.deleteVote} getTable={this.getVotes}/> 
           <br /><br /><br /> 
         </div>
@@ -95,7 +96,7 @@ class Vote extends Component {
           <Fab color="primary" aria-label="Add">
             <AddIcon onClick={async () => {
               const newData = {
-                _id:String(Date.now()), 
+                _id:String(Date.now()) + '_v', 
                 title: "New Adds",
                 data: [],
                 _pid:_pid

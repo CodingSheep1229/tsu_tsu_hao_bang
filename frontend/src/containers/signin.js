@@ -87,12 +87,11 @@ function SignIn(props) {
           store.dispatch(loginUser(res.user));
           localStorage.setItem('token', res.user.token)
           localStorage.setItem('user', res.user.user)
-          console.log(res);
+          props.history.push('/');
         }
         else
           alert(res.msg);
     })
-    .then(res => {props.history.push('/home')})
     .catch((err) => console.error(err));
     
     
