@@ -1,4 +1,4 @@
-export const url = 'http://localhost:5000';
+export const url = '';
 export const styles = {
     bmBurgerButton: {
       position: 'fixed',
