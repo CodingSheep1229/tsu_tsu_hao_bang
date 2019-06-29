@@ -20,7 +20,7 @@ app.use(cors());
 app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../frontend/public')));
 app.use(session({ secret: 'passport-tutorial', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
 if(!isProduction) {
@@ -55,7 +55,7 @@ if(!isProduction) {
 
 app.use((err, req, res) => {
   res.status(err.status || 500);
-  
+
 
   res.json({
     errors: {
@@ -65,5 +65,5 @@ app.use((err, req, res) => {
   });
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));
