@@ -10,26 +10,24 @@ router.post('/signup', auth.optional, (req, res, next) => {
   const { body: { data:{ user } } } = req;
 
   if(!user.email) {
-    return res.status(422).json({
-      errors: {
-        email: 'is required',
-      },
+    return res.json({
+        success: false,
+        msg: 'email required'
     });
   }
 
   if(!user.password) {
-    return res.status(422).json({
-      errors: {
-        password: 'is required',
-      },
-    });
+    return res.json({
+        success: false,
+        msg: 'password required'
+  });
   }
   Users.find({'email':user.email}).then((user)=> {
     // console.log(user);
     if (user.length != 0){
         return res.status(400).json({ success:false, msg:'Email Already Exists'})
     }
-});
+    });
     user.projects = [];
     const finalUser = new Users(user);
 
@@ -43,21 +41,19 @@ router.post('/signup', auth.optional, (req, res, next) => {
 //POST login route (optional, everyone has access)
 router.post('/signin', auth.optional, (req, res, next) => {
     const { body: { user } } = req;
-    // console.log(user);
+    console.log(user);
     // console.log(req.body)
     if(!user.email) {
-      return res.status(422).json({
-        errors: {
-          email: 'is required',
-        },
+      return res.json({
+            success: false,
+            msg: 'email required'
       });
     }
   
     if(!user.password) {
-      return res.status(422).json({
-        errors: {
-          password: 'is required',
-        },
+        return res.json({
+            success: false,
+            msg: 'password required'
       });
     }
     Users.find({'email':user.email}).then((user)=> {
@@ -87,7 +83,7 @@ router.post('/signin', auth.optional, (req, res, next) => {
 //GET current route (required, only authenticated users have access)
 router.get('/current', auth.required, (req, res, next) => {
   const { payload: { id } } = req;
-
+    return res.json(req.payload);
   return Users.findById(id)
     .then((user) => {
       if(!user) {

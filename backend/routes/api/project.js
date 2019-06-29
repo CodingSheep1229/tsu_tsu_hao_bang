@@ -13,6 +13,7 @@ router.get('/getProject', auth.required, (req, res, next) => {
       if(!user) {
         return res.sendStatus(400);
       }
+      console.log(user);
       Project.find({'_id':{ $in: user.projects }},(err, data) => {
         //   console.log(data);
         if (err) return res.json({ success: false, error: err });
@@ -56,6 +57,7 @@ router.post('/inviteUser', auth.required, (req, res, next) => {
         }
         return res.json({ success: true });
     });
+    return res.json({'test':'hi'});
     
 });
 
