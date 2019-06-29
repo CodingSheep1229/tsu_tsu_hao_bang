@@ -6,14 +6,15 @@ import ToDo from './todo';
 import Vote from './vote';
 import SignUp from './signup';
 import SignIn from './signin';
-// import Test from './test';
-import Project from './project'
+if ( localStorage.getItem('token') === '' ){
+  this.props.history('/signin')
+  alert('hey')
+}
 class Main extends Component {
-
     render() 
     {
       return (
-        <div className = "main_section">
+        <div>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/schedule" component={Schedule} />
@@ -21,7 +22,6 @@ class Main extends Component {
             <Route exact path="/vote" component={Vote} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/project" component={Project} />
           </Switch>
         </div>
 

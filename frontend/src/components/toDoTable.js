@@ -1,23 +1,10 @@
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
-import { makeStyles } from '@material-ui/styles';
 import Checkbox from '@material-ui/core/Checkbox';
-import { slide as Menu } from 'react-burger-menu'
-import { url,styles } from '../url'
-import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+import { url} from '../url'
+import Menu from './menu';
 const token = localStorage.getItem('token')
 var _pid = localStorage.getItem('_pid')
-const useStyles = makeStyles({
-    root: {
-      background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-      border: 0,
-      borderRadius: 3,
-      boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-      color: 'white',
-      height: 48,
-      padding: '0 30px',
-    },
-  });
 class TodoTable extends Component {
 // export default function MaterialTableDemo() {
     constructor(props) {
@@ -45,7 +32,7 @@ class TodoTable extends Component {
                 this.getDb()
                 
                 for(var i=0;i<Number(this.state.data.length);i++){
-                  if(rowData._id == this.state.data[i]._id){
+                  if(rowData._id === this.state.data[i]._id){
                     let temp = this.state.data
                     temp[i].ischeck = !rowData.ischeck
                     this.setState({data: temp});
@@ -145,11 +132,7 @@ class TodoTable extends Component {
     render(){    
     return (
         <div>
-            <Menu styles={ styles } > 
-                <a className="menu-item"><NavLink to="/schedule">Schedule</NavLink></a><br />
-                <a className="menu-item"><NavLink to="/todo">To Do List</NavLink></a><br />
-                <a className="menu-item"><NavLink to="/vote">vote</NavLink></a>
-            </ Menu>
+            <Menu />
             <MaterialTable
             columns={this.state.columns}
             data={this.state.data}
