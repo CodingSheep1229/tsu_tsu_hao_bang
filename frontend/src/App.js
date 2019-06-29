@@ -12,16 +12,16 @@ import Main from './containers/main';
 
 import { BrowserRouter } from 'react-router-dom'
 import signin from './containers/signin';
-function App() {
-  if ( localStorage.getItem('token') === '' ){
-    this.props.history('/signin')
-    console.log("here")
-  }
+
+function App(props) {
+  // if ( localStorage.getItem('token') === '' ){
+  //   props.history.push('/signin')
+  // }
   return (
     <BrowserRouter>
     <div className="App">
       <section> 
-        <Navbar signin={signin}/>
+        <Navbar/>
       </section>
       <section className = "main">
         <Main/>

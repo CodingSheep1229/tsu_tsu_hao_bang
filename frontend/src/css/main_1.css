@@ -15,8 +15,14 @@
 	 Typography
 -------------------------------------------------------------------------------*/
 .main{
-	margin-top: 3%;
+	/* margin-top: 3%; */
 }
+.cardgrid{
+	width: 60%;
+	margin-left: 20%;
+	margin-top: 2em;
+}
+
 .navlink{
 	color: white;
 	text-decoration: none;
@@ -130,10 +136,10 @@ ul li {
 	transition: padding 0.3s; 
 	background-color: #fff;
 }
-#header .logo {
+.logo {
 	font-family: Hensa;
 	font-size: 2.5em;
-	color: #f1ac9d;
+	color: rgb(247, 244, 117);
 	font-weight: 700;
 	float: left;
 	/* text-transform: uppercase; */

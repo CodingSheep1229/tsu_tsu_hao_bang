@@ -6,9 +6,8 @@ import ToDo from './todo';
 import Vote from './vote';
 import SignUp from './signup';
 import SignIn from './signin';
-if ( localStorage.getItem('token') === '' ){
+if ( localStorage.getItem('token') === null ){
   this.props.history('/signin')
-  alert('hey')
 }
 class Main extends Component {
     render() 

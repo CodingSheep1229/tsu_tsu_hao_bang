@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { Slide } from 'react-burger-menu'
+import { slide  as Slide} from 'react-burger-menu'
 import { NavLink} from "react-router-dom";
 const styles = {
     bmBurgerButton: {
       position: 'fixed',
-      width: '36px',
-      height: '30px',
-      left: '36px',
-      top: '36px'
+      width: '30px',
+      height: '20px',
+      left: '3%',
+      top: '3%'
     },
     bmBurgerBars: {
-      background: '#373a47'
+      background: '#fff'
     },
     bmBurgerBarsHover: {
       background: '#a90000'
@@ -52,9 +52,9 @@ class Menu extends Component {
       return (   
         <Slide styles={ styles } >
           <ul> 
-            <li className="menu-item"><NavLink to="/schedule">Schedule</NavLink></li><br />
-            <li className="menu-item"><NavLink to="/todo">To Do List</NavLink></li><br />
-            <li className="menu-item"><NavLink to="/vote">vote</NavLink></li>
+            <li className="menu-item"><NavLink to="/schedule" className = "navlink" >Schedule</NavLink></li><br />
+            <li className="menu-item"><NavLink to="/todo"className = "navlink" >To Do List</NavLink></li><br />
+            <li className="menu-item"><NavLink to="/vote"className = "navlink" >vote</NavLink></li>
           </ul>
         </Slide>
       )

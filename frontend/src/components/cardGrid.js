@@ -32,6 +32,7 @@ const CssTextField = withStyles({
     },
   },
 })(TextField);
+
 class CardGrid extends Component {
   constructor(props) {
     super(props);
@@ -86,26 +87,9 @@ class CardGrid extends Component {
     
   render() {
     return (
-      <div>
-      <TextField
-        id="outlined-full-width"
-        label="invite people"
-        placeholder="username"
-        fullWidth
-        margin="normal"
-        variant="outlined"
-        onKeyPress = {
-          e => {
-            if(e.key === 'Enter'){
-              this.addUserToProject(e.target.value)
-            }
-          }
-        }
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-        <Card style={{maxWidth: "345"}}>
+      <div className = "cardgrid" >
+
+        <Card styles={{maxWidth: "345"}} >
             <CardActionArea>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
@@ -125,6 +109,24 @@ class CardGrid extends Component {
                 </Typography>
             </CardContent>
             </CardActionArea>
+            <TextField
+              id="outlined-full-width"
+              label="invite people"
+              placeholder="username"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              onKeyPress = {
+                e => {
+                  if(e.key === 'Enter'){
+                    this.addUserToProject(e.target.value)
+                  }
+                }
+              }
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
             <CardActions>
                 <Button size="small" color="primary" onClick={() => {
                     this.props.getpro(this.props._id);
@@ -138,6 +140,7 @@ class CardGrid extends Component {
             </CardActions>
  
         </Card>
+
       </div>
     );
   }

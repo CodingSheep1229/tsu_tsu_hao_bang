@@ -6,6 +6,10 @@ import {url} from '../url';
 // import Project from './project';
 const token = localStorage.getItem('token')
 console.log(localStorage.getItem('token'))
+if(localStorage.getItem('token') === null){
+  console.log(localStorage.getItem('token'))
+  this.props.history.push('/signin')
+}
 class Home extends Component {
     constructor(props) {
       super(props);
@@ -82,20 +86,11 @@ class Home extends Component {
       this.props.history.push('/schedule');
     };
     componentDidMount(){
-      if ( localStorage.getItem('token') === '' ){
-        this.props.history('/signin')
-        console.log("here")
-      }
-      else
-        this.getProjects()
+      this.getProjects()
     }
     
     render() 
     {
-      if ( localStorage.getItem('token') == null ){
-        this.props.history.push('/signin')
-        console.log("here")
-      }
       const cards = this.state.data.map((card) => 
       <CardGrid name={card.name} _id={card._id} getpros={this.getProjects}
                 getpro={this.getProject} addProject={this.addProject} 
