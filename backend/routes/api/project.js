@@ -22,7 +22,7 @@ const pics = [
     'https://i.imgur.com/H2vxcah.jpg'
 ]
 
-router.get('/getProject', auth.required, (req, res, next) => {
+router.get('/getProject', auth.optional, (req, res, next) => {
     const { payload: { id } } = req;
   return Users.findById(id)
     .then((user) => {
