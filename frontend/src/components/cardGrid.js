@@ -41,11 +41,12 @@ class CardGrid extends Component {
     this.state = {
       _id:this.props._id,
       name:this.props.name,
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('token'),
+      _pid:this.props._id
     }
   }
   addUserToProject =  (username) => {
-    let data = {"email":username, "_pid":localStorage.getItem('_pid')};
+    let data = {"email":username, "_pid":this.state._pid};
     fetch(url + '/api/project/inviteUser', {
         method: 'post',
         body: JSON.stringify({
