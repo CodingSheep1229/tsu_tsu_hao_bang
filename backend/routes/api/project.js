@@ -13,7 +13,7 @@ router.get('/getProject', auth.required, (req, res, next) => {
       if(!user) {
         return res.sendStatus(400);
       }
-      console.log(user);
+    //   console.log(user);
       Project.find({'_id':{ $in: user.projects }},(err, data) => {
         //   console.log(data);
         if (err) return res.json({ success: false, error: err });
@@ -30,23 +30,63 @@ router.post('/addProject', auth.required, (req, res, next) => {
         if(!user) {
             return res.sendStatus(400);
         }
-        
         const finalProjct = new Project(data);
-        return finalProjct.save().then(() => res.json({ success: true }));
+        return finalProjct.save().then(() => {
+            return Users.findById(id)
+            .then((user) => {
+                if(!user) {
+                    return res.sendStatus(400);
+                }
+                // console.log(user);
+                Project.find({'_id':{ $in: user.projects }},(err, data) => {
+                    //   console.log(data);
+                    if (err) return res.json({ success: false, error: err });
+                    return res.json({ success: true, data: data });
+                });
+            });
+        });
     });
 });
 
 router.post('/updateProject', auth.required, (req, res, next) => {
     const { body: { data } } = req;
-    let id = data._id;
+    const { payload: { id } } = req;
+    let _id = data._id;
 
-    Project.findOneAndUpdate({ _id: id },{$set: data},{returnNewDocument : true}).then(()=>res.json({success:true}));
+    Project.findOneAndUpdate({ _id: _id },{$set: data},{returnNewDocument : true}).then(()=>{
+        return Users.findById(id)
+        .then((user) => {
+            if(!user) {
+                return res.sendStatus(400);
+            }
+            // console.log(user);
+            Project.find({'_id':{ $in: user.projects }},(err, data) => {
+                //   console.log(data);
+                if (err) return res.json({ success: false, error: err });
+                return res.json({ success: true, data: data });
+            });
+        });
+    });
 });
 
 router.post('/deleteProject', auth.required, (req, res, next) => {
-    const { body: { data:{id} } } = req;
+    const { body: { data:{_id} } } = req;
+    const { payload: { id } } = req;
 
-    return Project.findOneAndRemove({ _id: id },useFindAndModify=false).then(()=>res.json({success:true}));
+    return Project.findOneAndRemove({ _id: _id },useFindAndModify=false).then(()=>{
+        return Users.findById(id)
+        .then((user) => {
+            if(!user) {
+                return res.sendStatus(400);
+            }
+            // console.log(user);
+            Project.find({'_id':{ $in: user.projects }},(err, data) => {
+                //   console.log(data);
+                if (err) return res.json({ success: false, error: err });
+                return res.json({ success: true, data: data });
+            });
+        });
+    });
 });
 
 router.post('/inviteUser', auth.required, (req, res, next) => {
