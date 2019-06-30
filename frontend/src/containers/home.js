@@ -27,6 +27,12 @@ class Home extends Component {
           })
           
       })
+      .then(data => {
+        if(data.success == false){
+            this.props.history.push('/signin')
+          }
+        return data
+      })
       .then(data => data.json())
       .then(data => data.data)
       .then(data => {
