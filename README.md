@@ -46,7 +46,7 @@ npm start
 
 
 ### 6. Demo影片連結
-
+https://youtu.be/dKQ1k8mA3ZU
 ### 7. 分工
 B056705001 資管三 黃意芹：
 * 頁面設計、美化
