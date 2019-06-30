@@ -35,7 +35,7 @@ function Navbar(props) {
   // }
   const [isSignIn, setSign] = 
     React.useState(localStorage.getItem('token') !== '' ? 'Sign Out': 'Sign In');
-    setTimeout(() => setSign(localStorage.getItem('token')), 1000);
+  //   setTimeout(() => setSign(localStorage.getItem('token')), 1000);
   // () => setSign({isSignIn:'Sign In'})
   const clear = (props) => {
       localStorage.setItem('token','')
