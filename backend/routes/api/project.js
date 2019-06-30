@@ -104,12 +104,13 @@ router.post('/deleteProject', auth.required, (req, res, next) => {
     });
 });
 
-router.post('/inviteUser', auth.required, (req, res, next) => {
+router.post('/inviteUser', auth.optional, (req, res, next) => {
     const { body: { data } } = req;
     return Users.findOneAndUpdate({ 'email': data.email },{$push: {'projects':data._pid}},{returnNewDocument : true}).then((user)=> {
         if(!user) {
             return res.sendStatus(400);
         }
+        console.log(req)
         return res.json({ success: true });
     });
 });
