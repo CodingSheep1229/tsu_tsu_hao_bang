@@ -8,6 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { NavLink } from "react-router-dom";
 import { getThemeProps } from '@material-ui/styles';
+import { withRouter } from 'react-router-dom';
+
+setTimeout(() => {var token = localStorage.getItem('token'); console.log(token)}, 1500);
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -21,15 +24,18 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function Navbar(props) {
+function Navbar(props) {
   const classes = useStyles();
   // var Signed = 'Sign In'
+  
   // console.log(localStorage.getItem('token') !== '')
   // if(localStorage.getItem('token') !== ''){
   //     Signed = 'Sign Out'
+  //     console.log('Changeeeeee')
   // }
   const [isSignIn, setSign] = 
-  React.useState('Sign Out');
+    React.useState(localStorage.getItem('token') !== '' ? 'Sign Out': 'Sign In');
+  console.log(isSignIn)
   // () => setSign({isSignIn:'Sign In'})
   const clear = (props) => {
       localStorage.setItem('token','')
@@ -55,3 +61,4 @@ export default function Navbar(props) {
     </div>
   )
 }
+export default withRouter(Navbar);

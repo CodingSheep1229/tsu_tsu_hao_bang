@@ -4,24 +4,24 @@ import AddIcon from '@material-ui/icons/Add';
 import CardGrid from '../components/cardGrid'
 import {url} from '../url';
 // import Project from './project';
-const token = localStorage.getItem('token')
-console.log(localStorage.getItem('token'))
-if(localStorage.getItem('token') === null){
-  console.log(localStorage.getItem('token'))
-  this.props.history.push('/signin')
-}
+//console.log(localStorage.getItem('token'))
+// if(localStorage.getItem('token') === null){
+//   console.log(localStorage.getItem('token'))
+//   this.props.history.push('/signin')
+// }
 class Home extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        data:[]
+        data:[],
+        token: localStorage.getItem('token')
       }
     }
     getProjects = async () => {
       await fetch(url + '/api/project/getProject', { 
           method: 'get', 
           headers: new Headers({
-              'Authorization': 'Token ' + token, 
+              'Authorization': 'Token ' + this.state.token, 
           })
           
       })
@@ -40,7 +40,7 @@ class Home extends Component {
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token ' + token, 
+            'Authorization': 'Token ' + this.state.token, 
             'Content-Type': 'application/json',
         })
       })
@@ -63,7 +63,7 @@ class Home extends Component {
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token ' + token, 
+            'Authorization': 'Token ' + this.state.token, 
             'Content-Type': 'application/json',
         })
       })

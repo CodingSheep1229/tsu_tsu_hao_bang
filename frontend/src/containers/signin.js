@@ -78,12 +78,10 @@ function SignIn(props) {
     .then(res => {
         
         if(res.success){
-          new Promise(function (resolve, reject) {
             localStorage.setItem('token', res.user.token)
             localStorage.setItem('user', res.user.name)
             localStorage.setItem('user_id', res.user._id)  
-            resolve();
-            }).then(props.history.push('/')) 
+            setTimeout(() => props.history.push('/') ,1500);
           }
         else
           alert(res.msg);
