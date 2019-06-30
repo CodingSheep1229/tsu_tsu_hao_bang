@@ -1,4 +1,4 @@
-# [107-2] Web Programming Final <br> (GROUP 9) Trip Planner
+# [107-2] Web Programming Final <br> (GROUP 9) Trip Scheduler
 
 ### 1. 一句話描述這個服務在做什麼
 提供多人線上共同規劃出遊行程
