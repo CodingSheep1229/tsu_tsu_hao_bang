@@ -29,7 +29,7 @@ if(!isProduction) {
 }
 
 //Configure Mongoose
-mongoose.connect('mongodb+srv://sheep:sheep@web-final-etf7x.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true });
+mongoose.connect('mongodb+srv://sheep:sheep@web-final-etf7x.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true }).then(()=>console.log('fuck you'));
 app.use(session({
     secret: 'passport-tutorial',
     cookie: { maxAge: 60000 },
