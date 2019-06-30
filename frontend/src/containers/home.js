@@ -28,8 +28,7 @@ class Home extends Component {
       .then(data => data.json())
       .then(data => data.data)
       .then(data => {
-        this.setState({ data: data});  
-        console.log('here')      
+        this.setState({ data: data});        
     })
     }
     addProject = async (newData) => {
@@ -47,8 +46,8 @@ class Home extends Component {
       .then(res => { return res.json() })
       .then(res => {
           if(res.success){
-              console.log(res);
-              this.getProjects()
+              console.log(res.data)
+              this.setState({ data: res.data})
           }
           else
               alert('Fail.');
@@ -56,7 +55,7 @@ class Home extends Component {
       .catch((err) => console.error(err));
     }
     deleteProject = async (deleteId) => {
-      let data = {"id":deleteId};
+      let data = {"_id":deleteId};
       await fetch(url + '/api/project/deleteProject', {
           method: 'post',
           body: JSON.stringify({
@@ -70,13 +69,14 @@ class Home extends Component {
       .then(res => { return res.json() })
       .then(res => {
           if(res.success){
-            // const data = [...this.state.data];
-            // data.splice(data.indexOf(oldData), 1);
+            console.log(res.success)
+            window.location.reload()
           }   
           else
               alert('Fail.');
       })
       .catch((err) => console.error(err));
+    // console.log(this.state.data);
       
     }
     getProject = (_pid) => {
@@ -91,8 +91,11 @@ class Home extends Component {
     
     render() 
     {
+      if(localStorage.getItem('token') == ''){
+        this.props.history.push('/signin')
+      }
       const cards = this.state.data.map((card) => 
-      <CardGrid name={card.name} _id={card._id} getpros={this.getProjects}
+      <CardGrid name={card.name} _id={card._id} pic={card.pic} 
                 getpro={this.getProject} addProject={this.addProject} 
                 deletePro={this.deleteProject} />)
       return (

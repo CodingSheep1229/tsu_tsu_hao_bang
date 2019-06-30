@@ -14,15 +14,23 @@
 /* ------------------------------------------------------------------------------
 	 Typography
 -------------------------------------------------------------------------------*/
-.main{
-	/* margin-top: 3%; */
-}
-.cardgrid{
-	width: 60%;
-	margin-left: 20%;
-	margin-top: 2em;
+
+.materialTable{
+	margin-left:5%;
+	margin-right:5%;
 }
 
+.cardgrid{
+	width: 50%;
+	margin: 0px auto;
+	margin-top: 2em;
+	/* display: inline-block; */
+}
+.textfield{
+	margin-left: 100px;
+	margin-right: 100px;
+
+}
 .navlink{
 	color: white;
 	text-decoration: none;

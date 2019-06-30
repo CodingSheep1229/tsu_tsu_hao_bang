@@ -10,7 +10,7 @@ import './css/animate.min.css';
 import Navbar from './containers/navbar1';
 import Main from './containers/main';
 
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import signin from './containers/signin';
 
 function App(props) {
@@ -18,7 +18,7 @@ function App(props) {
   //   props.history.push('/signin')
   // }
   return (
-    <BrowserRouter>
+    <HashRouter>
     <div className="App">
       <section> 
         <Navbar/>
@@ -27,7 +27,7 @@ function App(props) {
         <Main/>
       </section>
     </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

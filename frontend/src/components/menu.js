@@ -7,7 +7,7 @@ const styles = {
       width: '30px',
       height: '20px',
       left: '3%',
-      top: '3%'
+      top: '30px'
     },
     bmBurgerBars: {
       background: '#fff'

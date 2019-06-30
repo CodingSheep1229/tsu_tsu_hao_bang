@@ -6,6 +6,7 @@ import store from "../redux-js/store/index";
 import { url} from '../url'
 import Menu from '../components/menu';
 const token = localStorage.getItem("token")
+// console.log(token)
 var _pid = localStorage.getItem("_pid")
 class Vote extends Component {
   constructor(props) {
@@ -80,25 +81,26 @@ class Vote extends Component {
     {
       const tables = this.state.data.map((table) =>  
         <div><VoteTable table={table} deleteTable={this.deleteVote} getTable={this.getVotes}/> 
-          <br /><br /><br /> 
+          <br />
         </div>
       )
        return (
-        <div className = "main_section">
+        <div>
           <Menu />
           {tables}
+          <br/><br/>
           <Fab color="primary" aria-label="Add">
             <AddIcon onClick={async () => {
               const newData = {
                 _id:String(Date.now()) + '_v', 
-                title: "New Adds",
+                title: "New Vote",
                 data: [],
                 _pid:_pid
               }
               this.addVote(newData)
               await this.getVotes()
             }
-              }/>
+            }/>
           </Fab>
         </div>
       );

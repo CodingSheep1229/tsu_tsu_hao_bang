@@ -10,22 +10,7 @@ class TodoTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          data:[
-            {
-              _id:'a',
-              ischeck: true,
-              work: 'sleep',
-              principle: 'meme',
-              deadtime: '10:00'
-            },
-            {
-              _id:'b',
-              ischeck: true,
-              work: 'pleep',
-              principle: 'peme',
-              deadtime: '10:00'
-            },
-          ],
+          data:[],
           columns: [
             { title: '', field: 'ischeck',type: 'boolean',
               render: rowData => <Checkbox checked={rowData.ischeck} onClick = {() => {
@@ -131,64 +116,67 @@ class TodoTable extends Component {
     // const classes = useStyles();
     render(){    
     return (
-        <div>
-            <Menu />
-            <MaterialTable
-            columns={this.state.columns}
-            data={this.state.data}
-            options={{
-              actionsColumnIndex: -1
-            }}
-            editable={{
-                onRowAdd: newData =>
-                new Promise(resolve => {
-                    setTimeout( () => {
-                    const data = [...this.state.data];
-                    newData = {
-                      "_id":String(Date.now()),
-                      "ischeck": newData.ischeck,
-                      "work": newData.work,
-                      "principle": newData.principle,
-                      "deadtime": newData.deadtime,
-                      '_pid':_pid
-                    };
-                    this.PutDb(newData);
-                    resolve();
-                    data.push(newData);
-                    this.setState({ ...this.state, data });
-                    }, 10);
-                    
-                }),
-                onRowUpdate: (newData, oldData) =>
-                new Promise(resolve => {
-                    setTimeout(() => {
-                    resolve();
-                    const data = [...this.state.data];
-                    newData = {
-                      "_id":data[data.indexOf(oldData)]._id,
-                      "ischeck": newData.ischeck,
-                      "work": newData.work,
-                      "principle": newData.principle,
-                      "deadtime": newData.deadtime,
-                      '_pid':_pid
-                    }
-                    this.UpdateDb(newData)
-                    data[data.indexOf(oldData)] = newData;
-                    this.setState({ ...this.state, data });
-                    }, 10);
-                }),
-                onRowDelete: oldData =>
-                new Promise(resolve => {
-                    setTimeout(() => {
-                    resolve();
-                    const data = [...this.state.data];
-                    this.DeleteDb(oldData._id)
-                    data.splice(data.indexOf(oldData), 1);
-                    this.setState({ ...this.state, data });
-                    }, 10);
-                }),
-            }}
-            />
+        <div>     
+            <div className = "materialTable">
+                <br/><br/>
+                <MaterialTable
+                columns={this.state.columns}
+                data={this.state.data}
+                options={{
+                actionsColumnIndex: -1
+                }}
+                title="To Do Table"
+                editable={{
+                    onRowAdd: newData =>
+                    new Promise(resolve => {
+                        setTimeout( () => {
+                        const data = [...this.state.data];
+                        newData = {
+                        "_id":String(Date.now()),
+                        "ischeck": newData.ischeck,
+                        "work": newData.work,
+                        "principle": newData.principle,
+                        "deadtime": newData.deadtime,
+                        '_pid':_pid
+                        };
+                        this.PutDb(newData);
+                        resolve();
+                        data.push(newData);
+                        this.setState({ ...this.state, data });
+                        }, 10);
+                        
+                    }),
+                    onRowUpdate: (newData, oldData) =>
+                    new Promise(resolve => {
+                        setTimeout(() => {
+                        resolve();
+                        const data = [...this.state.data];
+                        newData = {
+                        "_id":data[data.indexOf(oldData)]._id,
+                        "ischeck": newData.ischeck,
+                        "work": newData.work,
+                        "principle": newData.principle,
+                        "deadtime": newData.deadtime,
+                        '_pid':_pid
+                        }
+                        this.UpdateDb(newData)
+                        data[data.indexOf(oldData)] = newData;
+                        this.setState({ ...this.state, data });
+                        }, 10);
+                    }),
+                    onRowDelete: oldData =>
+                    new Promise(resolve => {
+                        setTimeout(() => {
+                        resolve();
+                        const data = [...this.state.data];
+                        this.DeleteDb(oldData._id)
+                        data.splice(data.indexOf(oldData), 1);
+                        this.setState({ ...this.state, data });
+                        }, 10);
+                    }),
+                }}
+                />
+            </div>
         </div>
     );
 }

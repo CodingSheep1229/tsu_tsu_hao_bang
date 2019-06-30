@@ -5,10 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { NavLink } from "react-router-dom";
-import { getThemeProps } from '@material-ui/styles';
 import { withRouter } from 'react-router-dom';
+import { NavLink, Redirect } from "react-router-dom";
 
 setTimeout(() => {var token = localStorage.getItem('token'); console.log(token)}, 1500);
 const useStyles = makeStyles(theme => ({
@@ -35,14 +33,15 @@ function Navbar(props) {
   // }
   const [isSignIn, setSign] = 
     React.useState(localStorage.getItem('token') !== '' ? 'Sign Out': 'Sign In');
-  //   setTimeout(() => setSign(localStorage.getItem('token')), 1000);
+    setTimeout(() => setSign(localStorage.getItem('token') ? 'Sign Out' : 'Sign In' ), 100);
   // () => setSign({isSignIn:'Sign In'})
-  const clear = (props) => {
+  const clear = () => {
       localStorage.setItem('token','')
       localStorage.setItem('user','')
       localStorage.setItem('user_id','')
       setSign({isSignIn:'Sign In'})
-      props.history.push('/signin')
+      props.history.push('/signin/')
+      window.location.reload()
   }
   return (
     <div className={classes.root}>
@@ -55,10 +54,10 @@ function Navbar(props) {
             <NavLink to = "/" className = "navlink logo">Trip Scheduler </NavLink>
           </Typography>
           <NavLink className = "navlink" to="/"><Button color="inherit">home</Button></NavLink>
-          <NavLink className = "navlink" to='/signin' onClick={() => clear()}><Button  color="inherit">{isSignIn}</Button></NavLink>
+          <NavLink className = "navlink" to='/signin' onClick={() => clear({props})}><Button  color="inherit">{isSignIn}</Button></NavLink>
         </Toolbar>
       </AppBar>
     </div>
   )
 }
-export default withRouter(Navbar);
+export default withRouter(Navbar)

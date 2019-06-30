@@ -121,8 +121,9 @@ class ScheduleTable extends Component {
     // const classes = useStyles();
     render(){    
     return (
-        <div>
-            <Menu />
+        <div className = "materialTable">
+          <br/><br/>
+            
             <MaterialTable
             title="Schedule"
             columns={this.state.columns}

@@ -81,7 +81,7 @@ function SignIn(props) {
             localStorage.setItem('token', res.user.token)
             localStorage.setItem('user', res.user.name)
             localStorage.setItem('user_id', res.user._id)  
-            setTimeout(() => props.history.push('/') ,3000);
+            props.history.push('/')
           }
         else
           alert(res.msg);

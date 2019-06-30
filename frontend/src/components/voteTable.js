@@ -36,12 +36,12 @@ class VoteTable extends Component {
           columns: [
             { title: 'Subject', field: 'subject' },
             { title: 'Description', field: 'description'},
-            { title: 'Member', field: 'member', type:'list' 
-              // render: rowData => 
+            { title: 'Member', field: 'member', type:'list',editable: 'never',
             },
-            { title: 'Vote', field: 'ischeck',type: 'boolean',
-              render: rowData => <Checkbox checked={rowData.ischeck}/>
+            { title: 'Vote', field: 'ischeck',type: 'boolean',editable: 'never',
+              render: rowData => <Checkbox checked={rowData == null ? false : rowData.member == [] ? false : rowData.member.includes(localStorage.getItem('user'))} onClick={() => this.checked(rowData)}/>
             },
+            
           ],
           data:{
             // p_id:'jjj',
@@ -56,37 +56,45 @@ class VoteTable extends Component {
           }    
         }  
     }
-    checked = (member) => {
-      var data = []
-      console.log(this.state.data.data)
-      const num = this.state.data.data.length
-      console.log(num)
-      for(var i=0; i < num;i++){
-        const user = localStorage.getItem('user')
-        var ischeck = true
-        // console.log(member)
-        const mem_num = this.state.data.data[i].member.length
-        console.log(mem_num)
-        for (var m = 0; m < mem_num; m++){
-          if (user === this.state.data.data[i].member[m]){
-            ischeck = true
-          } 
+    checked = (rowData) => {
+      console.log("inside")
+      const present_user = localStorage.getItem('user')
+      if(rowData != null){
+        var finish = false
+        const update_member = rowData.member
+        for(var i=0;i<rowData.member.length & finish === false;i++){
+          if(present_user === rowData.member[i]){
+            update_member.splice(i, 1); 
+            rowData.member.splice(i,1)
+            finish = true
+            console.log(finish)
+            break;
+          }
         }
-        var temp = {
-          "_id":this.state.data.data[i]._id,
-          "subject":this.state.data.data[i].subject,
-          "description":this.state.data.data[i].description,
-          "member":this.state.data.data[i].member,
-          "ischeck":ischeck
+        if (finish == false){
+          update_member.push(present_user)
         }
-        data.push(temp)
-        // console.log("hhh")
-        // console.log(data)
+        const data = [...this.state.data.data];
+        const newData = {
+          "member":rowData.member,
+          "_id":rowData._id,
+          "description":rowData.description,
+          "subject":rowData.subject,
+        }
+        data[data.indexOf(rowData)] = newData;
+        const allData = {
+          "_id":this.state.data._id,
+          "data":data,
+          "title":this.state.data.title
+        }
+        console.log(allData)
+        this.setState({data: allData})
+        this.UpdateVote(allData)
+        setTimeout(() => window.location.reload(),1000)
       }
-      return data
-    }
-    checking = (rowId) => {
       
+      
+      // this.props.history.push('/vote')
 
     }
     UpdateVote = async (newData) => {
@@ -103,44 +111,42 @@ class VoteTable extends Component {
       })
       .then(res => { return res.json() })
       .then(res => {
-          if(res.success)
-              console.log(res);
+          if(res.success){
+
+          }
           else
               alert('Fail.');
       })
       .catch((err) => console.error(err));
     }
-    async componentDidMount(){
+    componentDidMount(){
         var data = this.props.table
-        await this.setState({data:data})
-        console.log(this.state.data)
-        const newData = await this.checked()
-        console.log(newData)
-        await this.setState({ data:{...this.state.data, data: newData}});
-        console.log(this.state.data)
-        // await this.setState({data:data})
-        // console.log(this.state.data)
+        this.setState({data:data})
     }
     
     render(){
     return (
-        <div>
+        <div className = "materialTable">
+          <br/><br/>
             <MaterialTable className = "table"
-            title={<CssTextField
-              variant="outlined"
-              value = {this.state.data.title}
-              style={this.margin}
-              onChange = {async e => {
-              await this.setState({ data:{...this.state.data, title: e.target.value}});
-              this.UpdateVote(this.state.data)
-             }
-            }/>}
+              title={
+              <CssTextField
+                variant="outlined"
+                value = {this.state.data.title}
+                style={this.margin}
+                onChange = {async e => {
+                await this.setState({ data:{...this.state.data, title: e.target.value}});
+                this.UpdateVote(this.state.data)
+                }
+                }/>
+              }
+            
             columns={this.state.columns}
             data={this.state.data.data}
             options={{
               actionsColumnIndex: -1,
               headerStyle: {
-                backgroundColor: '#6abe83',
+                backgroundColor: '#ffff',
                 color: 'rgba(53,75,94)'
               }
             }}
@@ -164,7 +170,7 @@ class VoteTable extends Component {
                     newData = {
                       "_id":String(Date.now()),
                       "description":newData.description,
-                      "member":newData.member,
+                      "member":[],
                       "subject":newData.subject,
                     }
                     data.push(newData);
