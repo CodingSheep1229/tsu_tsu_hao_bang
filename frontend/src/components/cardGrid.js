@@ -11,8 +11,6 @@ import{url} from '../url'
 import { withStyles} from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/styles';
-
-const token = localStorage.getItem('token')
 // var _pid = localStorage.getItem('_pid')
 const CssTextField = withStyles({
   root: {
@@ -42,7 +40,8 @@ class CardGrid extends Component {
     super(props);
     this.state = {
       _id:this.props._id,
-      name:this.props.name
+      name:this.props.name,
+      token: localStorage.getItem('token')
     }
   }
   addUserToProject =  (username) => {
@@ -53,7 +52,7 @@ class CardGrid extends Component {
           data
       }),
       headers: new Headers({
-          'Authorization': 'Token ' + token, 
+          'Authorization': 'Token ' + this.state.token, 
           'Content-Type': 'application/json',
       })
     })
@@ -75,7 +74,7 @@ class CardGrid extends Component {
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token ' + token, 
+            'Authorization': 'Token ' + this.state.token, 
             'Content-Type': 'application/json',
         })
       })

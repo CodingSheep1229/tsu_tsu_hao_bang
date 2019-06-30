@@ -36,6 +36,7 @@ class VoteTable extends Component {
             { title: 'Subject', field: 'subject' },
             { title: 'Description', field: 'description'},
             { title: 'Member', field: 'member', type:'list',editable: 'never',
+            render: rowData => rowData.member.map(() => <p> </p>) 
             },
             { title: 'Vote', field: 'ischeck',type: 'boolean',editable: 'onUpdate',
               render: rowData => <Checkbox checked={rowData == null ? 
