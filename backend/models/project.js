@@ -4,7 +4,8 @@ const { Schema } = mongoose;
 const ProjectSchema = new Schema(
     {
         _id: String,
-        name: String
+        name: String,
+        pic: String,
     }
 );
 

@@ -6,6 +6,22 @@ const Users = mongoose.model('Users');
 const Project = mongoose.model('Project');
 const { Schema } = mongoose;
 
+const rand = require('random');
+
+const pics = [
+    'https://i.imgur.com/0flxIfT.jpg',
+    'https://i.imgur.com/Mhyy8s2.jpg',
+    'https://i.imgur.com/l8xIxCN.jpg',
+    'https://i.imgur.com/rN4WDRL.jpg',
+    'https://i.imgur.com/7Qd8Qvh.jpg',
+    'https://i.imgur.com/xzK5You.jpg',
+    'https://i.imgur.com/6zzLr89.jpg',
+    'https://i.imgur.com/rL7w3Ni.jpg',
+    'https://i.imgur.com/Z2P8Npj.jpg',
+    'https://i.imgur.com/MA42Kud.jpg',
+    'https://i.imgur.com/H2vxcah.jpg'
+]
+
 router.get('/getProject', auth.required, (req, res, next) => {
     const { payload: { id } } = req;
   return Users.findById(id)
@@ -13,7 +29,7 @@ router.get('/getProject', auth.required, (req, res, next) => {
       if(!user) {
         return res.sendStatus(400);
       }
-      console.log(user);
+    //   console.log(user);
       Project.find({'_id':{ $in: user.projects }},(err, data) => {
         //   console.log(data);
         if (err) return res.json({ success: false, error: err });
@@ -30,23 +46,64 @@ router.post('/addProject', auth.required, (req, res, next) => {
         if(!user) {
             return res.sendStatus(400);
         }
-        
+        data.pic = pics[Math.floor(Math.random()*11)];
         const finalProjct = new Project(data);
-        return finalProjct.save().then(() => res.json({ success: true }));
+        return finalProjct.save().then(() => {
+            return Users.findById(id)
+            .then((user) => {
+                if(!user) {
+                    return res.sendStatus(400);
+                }
+                // console.log(user);
+                Project.find({'_id':{ $in: user.projects }},(err, data) => {
+                    //   console.log(data);
+                    if (err) return res.json({ success: false, error: err });
+                    return res.json({ success: true, data: data });
+                });
+            });
+        });
     });
 });
 
 router.post('/updateProject', auth.required, (req, res, next) => {
     const { body: { data } } = req;
-    let id = data._id;
+    const { payload: { id } } = req;
+    let _id = data._id;
 
-    Project.findOneAndUpdate({ _id: id },{$set: data},{returnNewDocument : true}).then(()=>res.json({success:true}));
+    Project.findOneAndUpdate({ _id: _id },{$set: data},{returnNewDocument : true}).then(()=>{
+        return Users.findById(id)
+        .then((user) => {
+            if(!user) {
+                return res.sendStatus(400);
+            }
+            // console.log(user);
+            Project.find({'_id':{ $in: user.projects }},(err, data) => {
+                //   console.log(data);
+                if (err) return res.json({ success: false, error: err });
+                return res.json({ success: true, data: data });
+            });
+        });
+    });
 });
 
 router.post('/deleteProject', auth.required, (req, res, next) => {
-    const { body: { data:{id} } } = req;
+    const { body: { data:{_id} } } = req;
+    const { payload: { id } } = req;
 
-    return Project.findOneAndRemove({ _id: id },useFindAndModify=false).then(()=>res.json({success:true}));
+    return Project.findOneAndRemove({ _id: _id },useFindAndModify=false).then(()=>{
+        return Users.findById(id)
+        .then((user) => {
+            if(!user) {
+                return res.sendStatus(400);
+            }
+            // console.log(user);
+            Project.find({'_id':{ $in: user.projects }},(err, data) => {
+                //   console.log(data);
+                if (err) return res.json({ success: false, error: err });
+                return res.json({ success: true, data: data });
+            });
+        });
+    });
 });
 
 router.post('/inviteUser', auth.required, (req, res, next) => {
@@ -57,8 +114,6 @@ router.post('/inviteUser', auth.required, (req, res, next) => {
         }
         return res.json({ success: true });
     });
-    return res.json({'test':'hi'});
-    
 });
 
 module.exports = router;
