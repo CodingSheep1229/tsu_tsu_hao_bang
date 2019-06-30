@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles} from '@material-ui/core/styles';
 import { url } from '../url'
 import './table.css';
-const token = localStorage.getItem('token')
 const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
@@ -32,11 +31,12 @@ class VoteTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
+         token : localStorage.getItem('token'),
          columns : [
             { title: 'Subject', field: 'subject' },
             { title: 'Description', field: 'description'},
             { title: 'Member', field: 'member', type:'list',editable: 'never',
-            render: rowData => rowData.member.map(() => <p> </p>) 
+            render: rowData => rowData == null ? <p></p> : rowData.member.map((m) => <p> {m}</p>) 
             },
             { title: 'Vote', field: 'ischeck',type: 'boolean',editable: 'onUpdate',
               render: rowData => <Checkbox checked={rowData == null ? 
@@ -108,7 +108,7 @@ class VoteTable extends Component {
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token ' + token, 
+            'Authorization': 'Token ' + this.state.token, 
             'Content-Type': 'application/json',
         })
       })

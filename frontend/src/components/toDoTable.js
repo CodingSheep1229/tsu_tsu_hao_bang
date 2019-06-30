@@ -3,14 +3,14 @@ import MaterialTable from 'material-table';
 import Checkbox from '@material-ui/core/Checkbox';
 import { url} from '../url'
 import Menu from './menu';
-const token = localStorage.getItem('token')
-var _pid = localStorage.getItem('_pid')
 class TodoTable extends Component {
 // export default function MaterialTableDemo() {
     constructor(props) {
         super(props);
         this.state = {
           data:[],
+          token:localStorage.getItem('token'),
+          _pid:localStorage.getItem('_pid'),
           columns: [
             { title: '', field: 'ischeck',type: 'boolean',
               render: rowData => <Checkbox checked={rowData.ischeck} onClick = {() => {
@@ -34,12 +34,11 @@ class TodoTable extends Component {
         }  
     }
     getDb = async () => {
-        _pid = localStorage.getItem('_pid')
         await fetch(url + '/api/todo/getTodo', { 
             method: 'get', 
             headers: new Headers({
-                'Authorization': 'Token ' + token,
-                '_pid':_pid
+                'Authorization': 'Token ' + this.state.token,
+                '_pid':this.state._pid
               })
             
         })
@@ -49,13 +48,14 @@ class TodoTable extends Component {
     };
     PutDb = async (newData) => {
       let data = newData;
+      console.log(data)
       await fetch(url + '/api/todo/addTodo', {
           method: 'post',
           body: JSON.stringify({
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token ' + token, 
+            'Authorization': 'Token ' + this.state.token, 
             'Content-Type': 'application/json',
         })
       })
@@ -76,7 +76,7 @@ class TodoTable extends Component {
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token ' + token, 
+            'Authorization': 'Token ' + this.state.token, 
             'Content-Type': 'application/json',
         })
       })
@@ -97,7 +97,7 @@ class TodoTable extends Component {
             data
         }),
         headers: new Headers({
-            'Authorization': 'Token ' + token, 
+            'Authorization': 'Token ' + this.state.token, 
             'Content-Type': 'application/json',
         })
       })
@@ -137,8 +137,8 @@ class TodoTable extends Component {
                         "work": newData.work,
                         "principle": newData.principle,
                         "deadtime": newData.deadtime,
-                        '_pid':_pid
-                        };
+                        '_pid':this.state._pid
+                        }
                         this.PutDb(newData);
                         resolve();
                         data.push(newData);
@@ -157,7 +157,7 @@ class TodoTable extends Component {
                         "work": newData.work,
                         "principle": newData.principle,
                         "deadtime": newData.deadtime,
-                        '_pid':_pid
+                        '_pid':this.state._pid
                         }
                         this.UpdateDb(newData)
                         data[data.indexOf(oldData)] = newData;

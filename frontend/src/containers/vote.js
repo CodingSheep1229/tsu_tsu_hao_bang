@@ -6,23 +6,23 @@ import store from "../redux-js/store/index";
 import { url} from '../url'
 import Menu from '../components/menu';
 import {basicColor} from '../decorate'
-const token = localStorage.getItem("token")
 // console.log(token)
-var _pid = localStorage.getItem("_pid")
 class Vote extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data:[],
       welcome:'',
+      token:localStorage.getItem("token"),
+      _pid:localStorage.getItem("_pid")
     }
   }
   getVotes = async () => {
-    _pid = localStorage.getItem('_pid')
+    const _pid = this.state._pid
     await fetch(url + '/api/vote/getVotes', { 
         method: 'get', 
         headers: new Headers({
-            'Authorization': 'Token ' + token, 
+            'Authorization': 'Token ' + this.state.token, 
             '_pid':_pid
         })
         
@@ -45,7 +45,7 @@ class Vote extends Component {
           data
       }),
       headers: new Headers({
-          'Authorization': 'Token ' + token, 
+          'Authorization': 'Token ' + this.state.token, 
           'Content-Type': 'application/json',
       })
     })
@@ -66,7 +66,7 @@ class Vote extends Component {
           data
       }),
       headers: new Headers({
-          'Authorization': 'Token ' + token, 
+          'Authorization': 'Token ' + this.state.token, 
           'Content-Type': 'application/json',
       })
     })
@@ -106,7 +106,7 @@ class Vote extends Component {
                 _id:String(Date.now()) + '_v', 
                 title: "New Vote",
                 data: [],
-                _pid:_pid
+                _pid:this.state._pid
               }
               this.addVote(newData)
               await this.getVotes()

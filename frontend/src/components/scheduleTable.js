@@ -3,13 +3,12 @@ import MaterialTable from 'material-table';
 import { url,} from '../url'
 import Menu from './menu';
 import { basicColor } from '../decorate';
-var _pid = localStorage.getItem('_pid')
-var token = localStorage.getItem('token')
 class ScheduleTable extends Component {
 // export default function MaterialTableDemo() {
     constructor(props) {
         super(props);
         this.state = {
+            _pid:localStorage.getItem('_pid'),
             columns: [
                 { title: 'Time', field: 'time',type:"datetime"},
                 { title: 'Itinerary', field: 'itinerary' },
@@ -19,7 +18,8 @@ class ScheduleTable extends Component {
                     field: 'remark',
                 },
             ],
-            data:[]
+            data:[],
+            token:localStorage.getItem('token')
             // data: [
             //     { time: '10:00-11:00', itinerary: '起床', spending: 0, remark: '嘿嘿' },
             //     {
@@ -33,12 +33,12 @@ class ScheduleTable extends Component {
     }
 
     getDb = async () => {
-        _pid = localStorage.getItem('_pid');
-        token = localStorage.getItem('token');
+        const _pid = this.state._pid;
+        const token = this.state.token
         await fetch(url + '/api/schedule/getSchedule', { 
             method: 'get', 
             headers: new Headers({
-                'Authorization': 'Token ' + token, 
+                'Authorization': 'Token ' + this.state.token, 
                 '_pid': _pid
             })
             
@@ -50,7 +50,7 @@ class ScheduleTable extends Component {
     
     
     PutDb = async (newData) => {
-        _pid = localStorage.getItem('_pid')
+        const _pid = this.state._pid
         let data = newData;
         await fetch(url + '/api/schedule/addSchedule', {
             method: 'post',
@@ -58,7 +58,7 @@ class ScheduleTable extends Component {
               data
           }),
           headers: new Headers({
-              'Authorization': 'Token ' + token, 
+              'Authorization': 'Token ' + this.state.token, 
               'Content-Type': 'application/json',
           })
         })
@@ -80,9 +80,9 @@ class ScheduleTable extends Component {
               data
           }),
           headers: new Headers({
-              'Authorization': 'Token ' + token, 
+              'Authorization': 'Token ' + this.state.token, 
               'Content-Type': 'application/json',
-              '_pid': _pid
+              '_pid': this.state._pid
           })
         })
         .then(res => { return res.json() })
@@ -102,7 +102,7 @@ class ScheduleTable extends Component {
               data
           }),
           headers: new Headers({
-              'Authorization': 'Token ' + token, 
+              'Authorization': 'Token ' + this.state.token, 
               'Content-Type': 'application/json',
           })
         })
@@ -147,7 +147,7 @@ class ScheduleTable extends Component {
                         "itinerary": newData.itinerary,
                         "spending": newData.spending,
                         "remark": newData.remark,
-                        "_pid": _pid
+                        "_pid": this.state._pid
                     };
                     this.PutDb(newData);
                     data.push(newData);
@@ -166,7 +166,7 @@ class ScheduleTable extends Component {
                         "itinerary": newData.itinerary,
                         "spending": newData.spending,
                         "remark": newData.remark,
-                        "_pid": _pid
+                        "_pid": this.state._pid
                     };
                     this.setState({ ...this.state, data });
                     this.UpdateDb(newData)
