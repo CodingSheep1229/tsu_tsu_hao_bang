@@ -9,7 +9,6 @@ const { Schema } = mongoose;
 //GET current route (required, only authenticated users have access)
 router.get('/getVotes', auth.required, (req, res, next) => {
     const { payload: { id } } = req;
-    // console.log(req.headers._pid);
   return Users.findById(id)
     .then((user) => {
       if(!user) {
@@ -23,7 +22,6 @@ router.get('/getVotes', auth.required, (req, res, next) => {
 });
 
 router.post('/addVote', auth.required, (req, res, next) => {
-    // console.log(req.body);
     const { body: { data } } = req;
     
     const finalVote = new Vote(data);
@@ -33,7 +31,6 @@ router.post('/addVote', auth.required, (req, res, next) => {
 });
 
 router.post('/updateVote', auth.required, (req, res, next) => {
-    // console.log(req.body);
     const { body: { data } } = req;
     let id = data._id;
 
@@ -45,7 +42,5 @@ router.post('/deleteVote', auth.required, (req, res, next) => {
 
     return Vote.findOneAndRemove({ _id: id },useFindAndModify=false).then(()=>res.json({success:true}));
 });
-
-
 
 module.exports = router;

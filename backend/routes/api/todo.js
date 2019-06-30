@@ -21,7 +21,6 @@ router.get('/getTodo', auth.required, (req, res, next) => {
 });
 
 router.post('/addTodo', auth.required, (req, res, next) => {
-    // console.log(req.body);
     const { body: { data } } = req;
     
     const finalTodo = new Todo(data);
@@ -31,7 +30,6 @@ router.post('/addTodo', auth.required, (req, res, next) => {
 });
 
 router.post('/updateTodo', auth.required, (req, res, next) => {
-    console.log(req.body);
     const { body: { data } } = req;
     let id = data._id;
 

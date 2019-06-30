@@ -23,7 +23,6 @@ router.post('/signup', auth.optional, (req, res, next) => {
   });
   }
   Users.find({'email':user.email}).then((user)=> {
-    // console.log(user);
     if (user.length != 0){
         return res.status(400).json({ success:false, msg:'Email Already Exists'})
     }
@@ -42,7 +41,6 @@ router.post('/signup', auth.optional, (req, res, next) => {
 router.post('/signin', auth.optional, (req, res, next) => {
     const { body: { user } } = req;
     console.log(user);
-    // console.log(req.body)
     if(!user.email) {
       return res.json({
             success: false,
@@ -78,20 +76,5 @@ router.post('/signin', auth.optional, (req, res, next) => {
       return res.json({ success:false, msg:'Wrong Password'});
     })(req, res, next);
   });
-  
-
-//GET current route (required, only authenticated users have access)
-router.get('/current', auth.required, (req, res, next) => {
-  const { payload: { id } } = req;
-    return res.json(req.payload);
-  return Users.findById(id)
-    .then((user) => {
-      if(!user) {
-        return res.sendStatus(400);
-      }
-
-      return res.json({ user: user.toAuthJSON() });
-    });
-});
 
 module.exports = router;

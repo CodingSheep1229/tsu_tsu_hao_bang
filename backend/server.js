@@ -22,14 +22,13 @@ app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './frontend/public')));
-// app.use(session({ secret: 'passport-tutorial', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false}));
 
 if(!isProduction) {
   app.use(errorHandler());
 }
 
 //Configure Mongoose
-mongoose.connect('mongodb+srv://sheep:sheep@web-final-etf7x.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true }).then(()=>console.log('fuck you'));
+mongoose.connect('mongodb+srv://sheep:sheep@web-final-etf7x.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true }).then(()=>console.log('Connect to db'));
 app.use(session({
     secret: 'passport-tutorial',
     cookie: { maxAge: 60000 },
@@ -73,5 +72,5 @@ app.use((err, req, res) => {
   });
 });
 
-const port = 3001;//process.env.PORT || 3001;
+const port = 3001;
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));

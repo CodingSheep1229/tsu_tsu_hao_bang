@@ -96,9 +96,7 @@ router.post('/deleteProject', auth.required, (req, res, next) => {
             if(!user) {
                 return res.sendStatus(400);
             }
-            // console.log(user);
             Project.find({'_id':{ $in: user.projects }},(err, data) => {
-                //   console.log(data);
                 if (err) return res.json({ success: false, error: err });
                 return res.json({ success: true, data: data });
             });

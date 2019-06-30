@@ -22,7 +22,6 @@ router.get('/getSchedule', auth.required, (req, res, next) => {
 });
 
 router.post('/addSchedule', auth.required, (req, res, next) => {
-    console.log(req.body);
     const { body: { data } } = req;
     
     const finalSchedule = new Schedule(data);
@@ -32,7 +31,6 @@ router.post('/addSchedule', auth.required, (req, res, next) => {
 });
 
 router.post('/updateSchedule', auth.required, (req, res, next) => {
-    console.log(req.body);
     const { body: { data } } = req;
     let id = data._id;
 
