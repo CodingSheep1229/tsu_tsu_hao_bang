@@ -3,10 +3,13 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import CardGrid from '../components/cardGrid'
 import {url} from '../url';
-import { NavLink} from "react-router-dom";
 // import Project from './project';
 const token = localStorage.getItem('token')
 console.log(localStorage.getItem('token'))
+if(localStorage.getItem('token') === null){
+  console.log(localStorage.getItem('token'))
+  this.props.history.push('/signin')
+}
 class Home extends Component {
     constructor(props) {
       super(props);
@@ -67,7 +70,7 @@ class Home extends Component {
       .then(res => { return res.json() })
       .then(res => {
           if(res.success){
-            const data = [...this.state.data];
+            // const data = [...this.state.data];
             // data.splice(data.indexOf(oldData), 1);
           }   
           else
@@ -88,8 +91,6 @@ class Home extends Component {
     
     render() 
     {
-      console.log("ssss");
-      console.log(this.state.data[0]);
       const cards = this.state.data.map((card) => 
       <CardGrid name={card.name} _id={card._id} getpros={this.getProjects}
                 getpro={this.getProject} addProject={this.addProject} 

@@ -14,9 +14,19 @@
 /* ------------------------------------------------------------------------------
 	 Typography
 -------------------------------------------------------------------------------*/
+.main{
+	/* margin-top: 3%; */
+}
+.cardgrid{
+	width: 60%;
+	margin-left: 20%;
+	margin-top: 2em;
+}
 
-
-
+.navlink{
+	color: white;
+	text-decoration: none;
+}
 p {
 	font-size: 14px;
 	line-height: 22.4px;
@@ -94,9 +104,9 @@ ul li {
 	list-style: none;
 }
 .section {
-	padding: 100px 0;
+	/* padding: 100px 0; */
 	background-color: white;
-	/* position: static;   */
+	position: static;  
 }
 .no-padding {
 	padding: 0;
@@ -113,9 +123,11 @@ ul li {
 	width: 100%;
 	float: left;
 	z-index: 999;
+	/* margin-left: 3%; */
+	/* margin-right: 3%; */
 }
 #header .header-content {
-	margin: 0;
+	margin: 0 auto;
 	padding: 40px 0px;
 	width: 100%;
 	-moz-transition: padding 0.3s;
@@ -124,10 +136,10 @@ ul li {
 	transition: padding 0.3s; 
 	background-color: #fff;
 }
-#header .logo {
+.logo {
 	font-family: Hensa;
 	font-size: 2.5em;
-	color: #f1ac9d;
+	color: rgb(247, 244, 117);
 	font-weight: 700;
 	float: left;
 	/* text-transform: uppercase; */
@@ -141,7 +153,7 @@ ul li {
 #header.fixed .header-content {
 	border-bottom: 0;
 	
-	padding: 25px 0;
+	/* padding: 25px 0; */
 	/* background-color: grey; */
 }
 #header.fixed .nav-toggle {

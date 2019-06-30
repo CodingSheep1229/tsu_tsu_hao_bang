@@ -3,7 +3,6 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -11,7 +10,7 @@ import{url} from '../url'
 import { withStyles} from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 const token = localStorage.getItem('token')
-var _pid = localStorage.getItem('_pid')
+// var _pid = localStorage.getItem('_pid')
 const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
@@ -33,9 +32,7 @@ const CssTextField = withStyles({
     },
   },
 })(TextField);
-const style = {
-  margin: '5px',
-};
+
 class CardGrid extends Component {
   constructor(props) {
     super(props);
@@ -44,9 +41,9 @@ class CardGrid extends Component {
       name:this.props.name
     }
   }
-  addUserToProject = async (username) => {
-    let data = {username:username, _pid:localStorage.getItem('_pid')};
-    await fetch(url + '/project/inviteUser', {
+  addUserToProject =  (username) => {
+    let data = {"email":username, "_pid":localStorage.getItem('_pid')};
+    fetch(url + '/api/project/inviteUser', {
         method: 'post',
         body: JSON.stringify({
           data
@@ -90,26 +87,9 @@ class CardGrid extends Component {
     
   render() {
     return (
-      <div>
-      <TextField
-        id="outlined-full-width"
-        label="invite people"
-        placeholder="username"
-        fullWidth
-        margin="normal"
-        variant="outlined"
-        onKeyPress = {
-          e => {
-            if(e.key == 'Enter'){
-              this.addUserToProject(e.target.value)
-            }
-          }
-        }
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-        <Card style={{maxWidth: "345"}}>
+      <div className = "cardgrid" >
+
+        <Card styles={{maxWidth: "345"}} >
             <CardActionArea>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
@@ -129,6 +109,24 @@ class CardGrid extends Component {
                 </Typography>
             </CardContent>
             </CardActionArea>
+            <TextField
+              id="outlined-full-width"
+              label="invite people"
+              placeholder="username"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              onKeyPress = {
+                e => {
+                  if(e.key === 'Enter'){
+                    this.addUserToProject(e.target.value)
+                  }
+                }
+              }
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
             <CardActions>
                 <Button size="small" color="primary" onClick={() => {
                     this.props.getpro(this.props._id);
@@ -142,6 +140,7 @@ class CardGrid extends Component {
             </CardActions>
  
         </Card>
+
       </div>
     );
   }

@@ -1,7 +1,6 @@
 import React from 'react';
-// import logo from './logo.svg';
 
-import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 function Navbar() {
   return (
     <header id="header">

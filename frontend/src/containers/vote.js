@@ -3,10 +3,8 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import VoteTable from '../components/voteTable.js';
 import store from "../redux-js/store/index";
-import { slide as Menu } from 'react-burger-menu'
-import { withStyles} from '@material-ui/core/styles';
-import { url,styles } from '../url'
-import { NavLink, Switch, Route, Redirect } from "react-router-dom";
+import { url} from '../url'
+import Menu from '../components/menu';
 const token = localStorage.getItem("token")
 var _pid = localStorage.getItem("_pid")
 class Vote extends Component {
@@ -87,11 +85,7 @@ class Vote extends Component {
       )
        return (
         <div className = "main_section">
-          <Menu styles={ styles } > 
-                <a className="menu-item"><NavLink to="/schedule">Schedule</NavLink></a><br />
-                <a className="menu-item"><NavLink to="/todo">To Do List</NavLink></a><br />
-                <a className="menu-item"><NavLink to="/vote">vote</NavLink></a>
-          </ Menu>
+          <Menu />
           {tables}
           <Fab color="primary" aria-label="Add">
             <AddIcon onClick={async () => {

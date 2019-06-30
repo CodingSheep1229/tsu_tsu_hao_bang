@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
-import { makeStyles } from '@material-ui/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
-import { slide as Menu } from 'react-burger-menu'
 import { withStyles} from '@material-ui/core/styles';
-import { url, styles } from '../url'
+import { url } from '../url'
 import './table.css';
-// const random_img = [require('../images/portfolio/work-1.jpg'),require('../images/portfolio/work-2.jpg')]
 const token = localStorage.getItem('token')
 const CssTextField = withStyles({
   root: {
@@ -30,20 +27,6 @@ const CssTextField = withStyles({
     },
   },
 })(TextField);
-const style = {
-  margin: '5px',
-};
-const useStyles = makeStyles({
-    root: {
-      background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-      border: 0,
-      borderRadius: 3,
-      boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-      color: 'white',
-      height: 48,
-      padding: '0 30px',
-    },
-  });
 class VoteTable extends Component {
 // export default function MaterialTableDemo() {
     constructor(props) {
