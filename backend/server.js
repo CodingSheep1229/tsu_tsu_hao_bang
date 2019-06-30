@@ -5,6 +5,7 @@ const session = require('express-session');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const errorHandler = require('errorhandler');
+const MongoStore = require('connect-mongo')(session);
 
 //Configure mongoose's promise to global promise
 mongoose.promise = global.Promise;
@@ -21,7 +22,7 @@ app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../frontend/public')));
-app.use(session({ secret: 'passport-tutorial', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+// app.use(session({ secret: 'passport-tutorial', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false}));
 
 if(!isProduction) {
   app.use(errorHandler());
@@ -29,6 +30,13 @@ if(!isProduction) {
 
 //Configure Mongoose
 mongoose.connect('mongodb+srv://sheep:sheep@web-final-etf7x.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true });
+app.use(session({
+    secret: 'passport-tutorial',
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 mongoose.set('debug', true);
 
 require('./models/Users');
