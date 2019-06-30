@@ -29,7 +29,7 @@ class TodoTable extends Component {
             },
             { title: 'Work', field: 'work' },
             { title: 'Principal', field: 'principle'},
-            { title: 'DeadLine', field: 'deadtime', type: 'time'},
+            { title: 'DeadLine', field: 'deadtime', type: 'datetime'},
           ],
         }  
     }
@@ -125,7 +125,7 @@ class TodoTable extends Component {
                 options={{
                 actionsColumnIndex: -1
                 }}
-                title="To Do Table"
+                title="To Do List"
                 editable={{
                     onRowAdd: newData =>
                     new Promise(resolve => {

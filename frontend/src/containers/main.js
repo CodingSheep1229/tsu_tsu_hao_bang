@@ -10,12 +10,6 @@ import SignIn from './signin';
 //   this.props.history('/signin')
 // } 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    }
-  }
    
   render() 
     {

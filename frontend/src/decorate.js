@@ -1,0 +1,1 @@
+export const basicColor="#566a77"

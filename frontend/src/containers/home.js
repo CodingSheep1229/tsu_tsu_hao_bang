@@ -3,6 +3,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import CardGrid from '../components/cardGrid'
 import {url} from '../url';
+import{basicColor} from '../decorate'
 // import Project from './project';
 //console.log(localStorage.getItem('token'))
 // if(localStorage.getItem('token') === null){
@@ -14,7 +15,8 @@ class Home extends Component {
       super(props);
       this.state = {
         data:[],
-        token: localStorage.getItem('token')
+        token: localStorage.getItem('token'),
+        wel_pic:""
       }
     }
     getProjects = async () => {
@@ -28,7 +30,10 @@ class Home extends Component {
       .then(data => data.json())
       .then(data => data.data)
       .then(data => {
-        this.setState({ data: data});        
+        this.setState({ data: data}); 
+        if(this.state.data.length == 0){
+          this.setState({wel_pic:require('../images/home.png')})
+        }    
     })
     }
     addProject = async (newData) => {
@@ -48,7 +53,9 @@ class Home extends Component {
           if(res.success){
               console.log(res.data)
               this.setState({ data: res.data})
-          }
+              this.setState({wel_pic: ''})
+            }
+          
           else
               alert('Fail.');
       })
@@ -87,10 +94,11 @@ class Home extends Component {
     };
     componentDidMount(){
       this.getProjects()
+
     }
     
     render() 
-    {
+    {  
       if(localStorage.getItem('token') == ''){
         this.props.history.push('/signin')
       }
@@ -99,17 +107,20 @@ class Home extends Component {
                 getpro={this.getProject} addProject={this.addProject} 
                 deletePro={this.deleteProject} />)
       return (
-          <section id="portfolio" className="section portfolio">
+          <section id="portfolio" className="section portfolio" style={{paddingBottom:"30px"}}>
             <div className="container-fluid">
             <div className="item">
             </div>
               {cards}
-            </div> 
+            </div > 
+            <img style={{marginLeft:"-60px"}}src={this.state.wel_pic}></img>
             <br /><br /><br />
-            <Fab color="primary" aria-label="Add" onClick = {
+             
+            <h4> Create A New Trip </h4>
+            <Fab style={{backgroundColor:basicColor}} color="inherit" aria-label="Add" onClick = {
                   () => {this.addProject(); this.getProjects();}
                   }>
-                <AddIcon />
+                <AddIcon style={{color:'white'}}/>
             </Fab> 
           </section>
         

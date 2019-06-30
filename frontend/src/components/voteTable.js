@@ -32,71 +32,73 @@ class VoteTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
-          columns: [
+         columns : [
             { title: 'Subject', field: 'subject' },
             { title: 'Description', field: 'description'},
             { title: 'Member', field: 'member', type:'list',editable: 'never',
             },
-            { title: 'Vote', field: 'ischeck',type: 'boolean',editable: 'never',
-              render: rowData => <Checkbox checked={rowData == null ? false : rowData.member == [] ? false : rowData.member.includes(localStorage.getItem('user'))} onClick={() => this.checked(rowData)}/>
+            { title: 'Vote', field: 'ischeck',type: 'boolean',editable: 'onUpdate',
+              render: rowData => <Checkbox checked={rowData == null ? 
+                false : rowData.member == [] ? false : 
+                rowData.member.includes(localStorage.getItem('user'))} 
+                onChange={(e) => {
+                  const present_user = localStorage.getItem('user')
+                  if(rowData != null){
+                    var finish = false
+                    const update_member = rowData.member
+                    for(var i=0;i<rowData.member.length & finish === false;i++){
+                      if(present_user === rowData.member[i]){
+                        update_member.splice(i, 1); 
+                        rowData.member.splice(i,1)
+                        finish = true
+                        console.log(finish)
+                        break;
+                      }
+                    }
+                    if (finish == false){
+                      update_member.push(present_user)
+                    }
+                    const data = [...this.state.data.data];
+                    const newData = {
+                      "member":update_member,
+                      "_id":rowData._id,
+                      "description":rowData.description,
+                      "subject":rowData.subject,
+                    }
+                    data[data.indexOf(rowData)] = newData;
+                    console.log(data)
+                    this.setState({ data: {...this.state.data, data: data}});
+                    const allData = {
+                      "_id":this.state.data._id,
+                      "data":data,
+                      "title":this.state.data.title
+                    }
+                    console.log(allData)
+                    // this.setState({data: allData})
+                    
+                    // console.log('newData:',newData)
+                    // this.setState({polled: '1213'})
+                    this.UpdateVote(allData)
+                    setTimeout(() => window.location.reload(),100)
+                  }}}/>
             },
             
           ],
+
           data:{
-            // p_id:'jjj',
-            // title:'nnnnn',
-            // data : {
-            //   "_id":this.state.data.data._id,
-            //   "subject":this.state.data.data.subject,
-            //   "description":this.state.data.data.description,
-            //   "member":this.state.data.data.memeber,
-            //   "ischeck":false
-            // },
-          }    
+          } ,
+          polled:false,   
         }  
     }
-    checked = (rowData) => {
-      console.log("inside")
-      const present_user = localStorage.getItem('user')
-      if(rowData != null){
-        var finish = false
-        const update_member = rowData.member
-        for(var i=0;i<rowData.member.length & finish === false;i++){
-          if(present_user === rowData.member[i]){
-            update_member.splice(i, 1); 
-            rowData.member.splice(i,1)
-            finish = true
-            console.log(finish)
-            break;
-          }
-        }
-        if (finish == false){
-          update_member.push(present_user)
-        }
-        const data = [...this.state.data.data];
-        const newData = {
-          "member":rowData.member,
-          "_id":rowData._id,
-          "description":rowData.description,
-          "subject":rowData.subject,
-        }
-        data[data.indexOf(rowData)] = newData;
-        const allData = {
-          "_id":this.state.data._id,
-          "data":data,
-          "title":this.state.data.title
-        }
-        console.log(allData)
-        this.setState({data: allData})
-        this.UpdateVote(allData)
-        setTimeout(() => window.location.reload(),1000)
-      }
+    // checked = (rowData) => {
+    //   // console.log("inside")
+    //   // event.preventDefau
+    //   }
       
       
       // this.props.history.push('/vote')
 
-    }
+    // }
     UpdateVote = async (newData) => {
       let data = newData;
       await fetch(url + '/api/vote/updateVote', {
@@ -124,9 +126,10 @@ class VoteTable extends Component {
         this.setState({data:data})
     }
     
+    
     render(){
     return (
-        <div className = "materialTable">
+        <div className = "materialTable" >
           <br/><br/>
             <MaterialTable className = "table"
               title={
@@ -138,9 +141,10 @@ class VoteTable extends Component {
                 await this.setState({ data:{...this.state.data, title: e.target.value}});
                 this.UpdateVote(this.state.data)
                 }
-                }/>
+                }/>     
               }
-            
+
+              // title={this.state.polled}
             columns={this.state.columns}
             data={this.state.data.data}
             options={{

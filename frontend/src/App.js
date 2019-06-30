@@ -20,10 +20,11 @@ function App(props) {
   return (
     <HashRouter>
     <div className="App">
-      <section> 
-        <Navbar/>
+      <section style={{backgroundColor:'#fff'}}> 
+        <Navbar />
       </section>
       <section className = "main">
+        <br/><br/><br/>
         <Main/>
       </section>
     </div>

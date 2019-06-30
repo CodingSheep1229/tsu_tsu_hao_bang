@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { url,} from '../url'
 import Menu from './menu';
+import { basicColor } from '../decorate';
 var _pid = localStorage.getItem('_pid')
 var token = localStorage.getItem('token')
 class ScheduleTable extends Component {
@@ -10,7 +11,7 @@ class ScheduleTable extends Component {
         super(props);
         this.state = {
             columns: [
-                { title: 'Time', field: 'time'},
+                { title: 'Time', field: 'time',type:"datetime"},
                 { title: 'Itinerary', field: 'itinerary' },
                 { title: 'Spending', field: 'spending', type: 'numeric' },
                 {
@@ -128,6 +129,12 @@ class ScheduleTable extends Component {
             title="Schedule"
             columns={this.state.columns}
             data={this.state.data}
+            options={{
+                searchFieldStyle:{
+                    borderBottomColor: basicColor,
+                },
+                actionsColumnIndex: -1,
+            }}
             editable={{
                 onRowAdd: newData =>
                 new Promise(resolve => {

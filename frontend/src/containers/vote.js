@@ -5,6 +5,7 @@ import VoteTable from '../components/voteTable.js';
 import store from "../redux-js/store/index";
 import { url} from '../url'
 import Menu from '../components/menu';
+import {basicColor} from '../decorate'
 const token = localStorage.getItem("token")
 // console.log(token)
 var _pid = localStorage.getItem("_pid")
@@ -12,7 +13,8 @@ class Vote extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data:[]
+      data:[],
+      welcome:'',
     }
   }
   getVotes = async () => {
@@ -27,9 +29,13 @@ class Vote extends Component {
     })
     .then(data => data.json())
     .then(data => data.data)
-    .then(data => this.setState({ data: data}))
-    console.log("in")
-    console.log(this.state.data) 
+    .then(data => {
+      this.setState({ data: data});
+      console.log(this.state.data.length == 0)
+      if(this.state.data.length == 0){
+        this.setState({welcome:"Create A New Votetable"})
+      } 
+    })
   };
   deleteVote = async (deleteId) => {
     let data = {"id":deleteId}
@@ -66,8 +72,12 @@ class Vote extends Component {
     })
     .then(res => { return res.json() })
     .then(res => {
-        if(res.success)
-            console.log(res);
+        if(res.success){
+          console.log(res);
+          if(this.state.data.length == 0){
+            this.setState({welcome:"Create A New Votetable"})
+          } 
+        }   
         else
             alert('Fail.');
     })
@@ -88,9 +98,10 @@ class Vote extends Component {
         <div>
           <Menu />
           {tables}
-          <br/><br/>
-          <Fab color="primary" aria-label="Add">
-            <AddIcon onClick={async () => {
+          <br/>
+          <h4> Create A New Vote </h4>
+          <Fab style={{backgroundColor:basicColor}} color="inherit" aria-label="Add">
+            <AddIcon style={{color:'white'}} onClick={async () => {
               const newData = {
                 _id:String(Date.now()) + '_v', 
                 title: "New Vote",

@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { slide  as Slide} from 'react-burger-menu'
 import { NavLink} from "react-router-dom";
+import { OutlinedInput } from '@material-ui/core';
 const styles = {
+    // bmItem:{
+    //   outLine: '0 !important',
+    // },
     bmBurgerButton: {
       position: 'fixed',
       width: '30px',
       height: '20px',
-      left: '3%',
-      top: '30px'
+      left: '20px',
+      top: '40px'
     },
     bmBurgerBars: {
-      background: '#fff'
+      background: '#8eadc1'
     },
     bmBurgerBarsHover: {
       background: '#a90000'
@@ -38,12 +42,17 @@ const styles = {
       color: '#b8b7ad',
       padding: '0.8em'
     },
-    bmItem: {
-      display: 'inline-block'
+    bmItem:{
+      display: 'inline-block',
+      outline:'-webkit-focus-ring-color auto 0px',
     },
+      
     bmOverlay: {
       background: 'rgba(0, 0, 0, 0.3)'
-    }
+    },
+    // ul:focus{
+    //   outlone: 'none';
+    // }        
 }
 class Menu extends Component {
 

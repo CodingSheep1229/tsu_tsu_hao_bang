@@ -10,11 +10,20 @@
 	src: url("../Hensa.ttf");
 
 	}
-@import url(http://fonts.googleapis.com/css?family=Open%20Sans:300,400,500,600,700);
+/* @import url(http://fonts.googleapis.com/css?family=Open%20Sans:300,400,500,600,700); */
 /* ------------------------------------------------------------------------------
 	 Typography
 -------------------------------------------------------------------------------*/
+.main{
+	margin-top:30px;
+}
 
+.project-actions{
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	/* border: 1px solid orange; */
+}
 .materialTable{
 	margin-left:5%;
 	margin-right:5%;
@@ -34,6 +43,17 @@
 .navlink{
 	color: white;
 	text-decoration: none;
+}
+.logo {
+	font-family: Hensa;
+	font-size: 2.5em;
+	color: white;
+	font-weight: 700;
+	float: left;
+	/* text-transform: uppercase; */
+	text-decoration: none;
+	margin-top: 0%;
+	margin-left: 5%;
 }
 p {
 	font-size: 14px;
@@ -55,7 +75,7 @@ h3 {
 }
 h4 {
 	font-size: 22px;
-	color: #2d3033;
+	color:  #566a77;
 	font-weight: 400;
 }
 h5 {
@@ -144,17 +164,7 @@ ul li {
 	transition: padding 0.3s; 
 	background-color: #fff;
 }
-.logo {
-	font-family: Hensa;
-	font-size: 2.5em;
-	color: rgb(247, 244, 117);
-	font-weight: 700;
-	float: left;
-	/* text-transform: uppercase; */
-	text-decoration: none;
-	margin-top: 0%;
-	margin-left: 5%;
-}
+
 #header.fixed {
 	background-color: #fff;
 }

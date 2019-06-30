@@ -11,18 +11,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { NavLink} from "react-router-dom";
 import {url} from '../url';
 import { connect } from "react-redux";
+import {basicColor} from '../decorate'
 import store from "../redux-js/store/index";
 import { loginUser } from "../redux-js/actions/index";
 const user_valid = {}
-// const saveState = (state) => {
-//   try {
-//     const serializedState = JSON.stringify(state);
-//     localStorage.setItem('state', serializedState);
-//   } catch (e) {
-//     // Ignore write errors;
-//   }
-// };
-
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
@@ -32,6 +24,7 @@ const useStyles = makeStyles(theme => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    backgroundColor: basicColor
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -41,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: basicColor
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -49,7 +42,11 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: basicColor
   },
+  allColor:{
+    border: basicColor
+  }
 }));
 
 
@@ -105,6 +102,7 @@ function SignIn(props) {
           </Typography>
           <form className={classes.form} Validate>
             <TextField
+              className={classes.allColor}
               variant="outlined"
               margin="normal"
               required
@@ -115,6 +113,7 @@ function SignIn(props) {
               autoComplete="email"
               autoFocus
               onChange={e => changeForm(e)}
+              color = "inherit"
             />
             <TextField
               variant="outlined"

@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container';
 import { NavLink } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
 import {url} from '../url'
+import {basicColor} from '../decorate'
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
@@ -22,17 +23,20 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: basicColor,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
+    outlineColor: basicColor,
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: basicColor
   },
 
 }));

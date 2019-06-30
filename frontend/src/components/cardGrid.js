@@ -97,38 +97,20 @@ class CardGrid extends Component {
             <CardActionArea 
               onClick={() => {this.props.getpro(this.props._id)}}
             >
-            <CardMedia
-              component="img"
-              // className={classes.media}
-              image={this.props.pic}
-              title="Contemplative Reptile"
-            />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {this.state.name}
-                    {/* <CssTextField
-                    variant="outlined"
-                    value = {this.state.name}
-                    style={this.margin}
-                    onChange = {
-                      async e => {
-                      await this.setState({name: e.target.value});
-                      await this.updateProject()}
-                    }/> */}
-                </Typography>
-                {/* <Typography variant="body2" color="textSecondary" component="p">
-                  whahahahahahaha
-                </Typography> */}
-            </CardContent>
+              <CardMedia
+                component="img"
+                // className={classes.media}
+                image={this.props.pic}
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    {this.state.name}
+                  </Typography>
+              </CardContent>
             </CardActionArea>
-            <CardActions>              
-              {/* <Button size="small" color="primary" onClick={() => {
-                    this.props.getpro(this.props._id);
-                    console.log(localStorage.getItem('_pid'))
-                  }}>
-                  Details
-                </Button> */}
-
+            <CardActions>
+              <div className = "project-actions">           
               <TextField
                 id="standard-name"
                 label="Rename Your Trip"
@@ -145,22 +127,29 @@ class CardGrid extends Component {
               <TextField
                 id="standard-uncontrolled"
                 label="Invite Your Friend"
-                defaultValue="User Email"
                 margin="normal"
+                placeholder = "User Email"
                 className = "textfield"
-                // variant="outlined"
                 onKeyPress = {
                   e => {
                     if(e.key === 'Enter'){
-                      this.addUserToProject(e.target.value)
+                      console.log(!String(e.target.value).includes(".com"))
+                      if(!String(e.target.value).includes(".com")){
+                        alert("Wrong Email ")
+                      }
+                      else{
+                        this.addUserToProject(e.target.value)
+                        alert("You Invite Your Friend " + e.target.value)
+                      } 
                     }
                   }
                 }
-              />  
-              <Button>
-                <DeleteIcon  onClick={() => {
+              />
+              <Button >
+                <DeleteIcon onClick={() => {
                   this.props.deletePro(this.props._id)}}/>
               </Button>
+              </div> 
             </CardActions>
  
         </Card>
@@ -169,5 +158,5 @@ class CardGrid extends Component {
     );
   }
 }
-
+              
 export default CardGrid
