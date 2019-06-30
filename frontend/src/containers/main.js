@@ -6,11 +6,18 @@ import ToDo from './todo';
 import Vote from './vote';
 import SignUp from './signup';
 import SignIn from './signin';
-if ( localStorage.getItem('token') === null ){
-  this.props.history('/signin')
-}
+// if ( localStorage.getItem('token') === null ){
+//   this.props.history('/signin')
+// } 
 class Main extends Component {
-    render() 
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+   
+  render() 
     {
       return (
         <div>
