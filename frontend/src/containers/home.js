@@ -20,6 +20,7 @@ class Home extends Component {
       }
     }
     getProjects = async () => {
+      var get = false
       await fetch(url + '/api/project/getProject', { 
           method: 'get', 
           headers: new Headers({
@@ -28,19 +29,39 @@ class Home extends Component {
           
       })
       .then(data => {
-        if(data.success == false){
-            this.props.history.push('/signin')
+        try {
+          if (data.success == true){
+            get = true
+            return data
           }
-        return data
+        }
+        catch(err) {
+          this.props.history.push('/signin')
+        }
+        
       })
-      .then(data => data.json())
-      .then(data => data.data)
+      .then(
+        data => {
+          try{
+            return data.json()
+          }
+          catch(err){
+            return data
+          }
+          })
+      .then(data => {try {return data.data} catch(err){return data}})
       .then(data => {
-        this.setState({ data: data}); 
-        if(this.state.data.length == 0){
-          this.setState({wel_pic:require('../images/home.png')})
-        }    
+        if (get != false){
+          this.setState({ data: data}); 
+          if(this.state.data.length == 0){
+            this.setState({wel_pic:require('../images/home.png')})
+          }
+        }
+        else{
+          this.props.history.push('/signin')
+        }     
     })
+    
     }
     addProject = async (newData) => {
       let data = { _id:String(Date.now()) + '_p', name:'New Project'}
@@ -93,9 +114,10 @@ class Home extends Component {
       
     }
     getProject = (_pid) => {
-      console.log(_pid)
+      // if (this.state.token == ""){
+      //   this.props.history.push('./signin')
+      // }
       localStorage.setItem('_pid',_pid)
-      console.log(localStorage.getItem('_pid'))
       this.props.history.push('/schedule');
     };
     componentDidMount(){
