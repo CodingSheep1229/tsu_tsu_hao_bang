@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CardGrid from '../components/cardGrid'
 import {url} from '../url';
 import{basicColor} from '../decorate'
+var get = false
 // import Project from './project';
 //console.log(localStorage.getItem('token'))
 // if(localStorage.getItem('token') === null){
@@ -20,7 +21,6 @@ class Home extends Component {
       }
     }
     getProjects = async () => {
-      var get = false
       await fetch(url + '/api/project/getProject', { 
           method: 'get', 
           headers: new Headers({
@@ -28,39 +28,15 @@ class Home extends Component {
           })
           
       })
+      .catch(err => console.log(err))
+      .then(data => {return data.json()})
+      .then(data => {return data.data})
       .then(data => {
-        try {
-          if (data.success == true){
-            get = true
-            return data
-          }
-        }
-        catch(err) {
-          this.props.history.push('/signin')
-        }
-        
-      })
-      .then(
-        data => {
-          try{
-            return data.json()
-          }
-          catch(err){
-            return data
-          }
-          })
-      .then(data => {try {return data.data} catch(err){return data}})
-      .then(data => {
-        if (get != false){
           this.setState({ data: data}); 
           if(this.state.data.length == 0){
             this.setState({wel_pic:require('../images/home.png')})
           }
-        }
-        else{
-          this.props.history.push('/signin')
-        }     
-    })
+        })
     
     }
     addProject = async (newData) => {
@@ -121,13 +97,15 @@ class Home extends Component {
       this.props.history.push('/schedule');
     };
     componentDidMount(){
-      this.getProjects()
-
+      if(localStorage.getItem('token') != null){
+        this.getProjects()
+      }
     }
     
     render() 
     {  
-      if(localStorage.getItem('token') == ''){
+      console.log(localStorage.getItem('token'))
+      if(localStorage.getItem('token') == null){
         this.props.history.push('/signin')
       }
       const cards = this.state.data.map((card) => 

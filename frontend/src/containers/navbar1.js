@@ -8,8 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import { withRouter } from 'react-router-dom';
 import { NavLink, Redirect } from "react-router-dom";
 import {basicColor} from '../decorate'
-
-setTimeout(() => {var token = localStorage.getItem('token'); console.log(token)}, 1500);
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
