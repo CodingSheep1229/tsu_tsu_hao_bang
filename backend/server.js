@@ -72,5 +72,5 @@ app.use((err, req, res) => {
   });
 });
 
-const port = 3001;
+const port = 5000;
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));

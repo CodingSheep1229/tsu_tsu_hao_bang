@@ -31,7 +31,7 @@ router.get('/getProject', auth.optional, (req, res, next) => {
       }
     //   console.log(user);
       Project.find({'_id':{ $in: user.projects }},(err, data) => {
-        //   console.log(data);
+        console.log({ success: true, data: data })
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true, data: data });
       });
